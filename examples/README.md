@@ -1,9 +1,9 @@
 # Example script for using HiggsAudio-V2
 
 > [!NOTE]  
-> If you do not like the audio you get, you can generate multiple times with different seeds.
+> If you do not like the audio you get, you can generate multiple times with different seeds. In addition, you may need to apply text normalization to get the best performance, e.g. converting 70 °F to "seventy degrees Fahrenheit". Right now, the model has not been post-trained, we are working on post-training the model to further boosts and stabilize some of the emergent capabilities.
 
-We provide examples to explore the capability of HiggsAudio-V2. Right now, the model has not been post-trained, we are working on post-training the model to further boosts these capability.
+We provide examples to explore the capability of HiggsAudio-V2.
 
 ## Single-speaker Audio Generation
 

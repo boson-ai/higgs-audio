@@ -2,14 +2,17 @@
 
 We are open-sourcing HiggsAudio-V2, a powerful audio foundation model pretrained on over 10 million hours of audio data and a diverse set of text data. Despite having no post-training or fine-tuning, HiggsAudio-V2 excels in expressive audio generation, thanks to its deep language and acoustic understanding.
 
-On [EmergentTTS-Eval](https://github.com/boson-ai/emergenttts-eval-public), it achieves win rates of **75.7%** and **55.7%** over "gpt-4o-mini-tts" on the "Emotions" and "Questions" categories, respectively. It also obtains state-of-the-art performance on traditional TTS benchmarks like Seed-TTS Eval and Emotional Speech Dataset (ESD). Moreover, the model demonstrates capabilities rarely seen in previous systems, including automatic prosody adaptation during narration, zero-shot generation of natural multi-speaker dialogues in multiple languages, melodic humming with the cloned voice, and simultaneous generation of speech and background music.
+On [EmergentTTS-Eval](https://github.com/boson-ai/emergenttts-eval-public), it achieves win rates of **75.7%** and **55.7%** over "gpt-4o-mini-tts" on the "Emotions" and "Questions" categories, respectively. It also obtains state-of-the-art performance on traditional TTS benchmarks like Seed-TTS Eval and Emotional Speech Dataset (ESD). Moreover, the model demonstrates capabilities rarely seen in previous systems, including generating natural multi-speaker dialogues in multiple languages, automatic prosody adaptation during narration, melodic humming with the cloned voice, and simultaneous generation of speech and background music.
 
 <p align="center">
     <img src="figures/emergent-tts-emotions-win-rate.png" width=900>
 </p>
 
+Here's the demo video that shows some of the emergent capabilities:
 
-[Placeholder for demo video]
+[![Watch the demo video](./demo_video/thumbnail_demo_video.png)](https://www.dropbox.com/scl/fi/56dxm38o9s5ajw7yf59rz/open_source_repo_demo.mov?rlkey=19o9zr91c7hmjixq0fdjylhtr&st=azknsm78&dl=1)
+
+
 
 ## Installation
 
