@@ -10,7 +10,12 @@ On [EmergentTTS-Eval](https://github.com/boson-ai/emergenttts-eval-public), it a
 
 Here's the demo video that shows some of the emergent capabilities:
 
-[![Watch the demo video](./demo_video/thumbnail_demo_video.png)](https://www.dropbox.com/scl/fi/56dxm38o9s5ajw7yf59rz/open_source_repo_demo.mov?rlkey=19o9zr91c7hmjixq0fdjylhtr&st=azknsm78&dl=1)
+![Watch the demo video](https://www.dropbox.com/scl/fi/3tzjeamn0q16j7gxqzcej/open_source_repo_demo.mp4?rlkey=qiu9rejyjjtt16bqv6ns1hnx3&st=faanvge2&dl=0)
+
+<video width="320" height="240" controls>
+  <source src="https://www.dropbox.com/scl/fi/3tzjeamn0q16j7gxqzcej/open_source_repo_demo.mp4?rlkey=qiu9rejyjjtt16bqv6ns1hnx3&st=faanvge2&dl=0" type="video/mp4">
+</video>
+
 
 
 
