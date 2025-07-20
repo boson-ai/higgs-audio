@@ -8,7 +8,7 @@ On [EmergentTTS-Eval](https://github.com/boson-ai/emergenttts-eval-public), it a
     <img src="figures/emergent-tts-emotions-win-rate.png" width=900>
 </p>
 
-Here's the demo video that shows some of the emergent capabilities:
+Here's the demo video that shows some of the emergent capabilities (remember to unmute):
 
 <video width="320" height="240" src="https://github.com/user-attachments/assets/0fd73fad-097f-48a9-9f3f-bc2a63b3818d" type="video/mp4">
 </video>
