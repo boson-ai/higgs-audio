@@ -3,7 +3,7 @@ At Boson AI, we work on making communication with AI as easy, natural and fun as
 # Higgs Audio Generation
 To communicate with humans in a delightful and natural manner, we need to be able to generate realistic, emotionally competent and well-accentuated speech. We need a system that is capable of pronouncing words correctly, even if they derive from a foreign language, particularly for people’s names and places. We need a system that can generate conversations between multiple speakers, particularly when multiple characters in games are involved, or when reading books or screenplays.
 
-Pure TTS (text to speech) systems struggle at these tasks, since they typically do not understand the meaning of what they’re generating, or any sense of urgency, hesitation, or other intonations that would be plainly obvious to a human speaker. They also struggle to adopt the natural character of a speaker, e.g. whether they’re naturally enthusiastic or more deliberate and thoughtful.
+Pure TTS (text to speech) systems struggle at these tasks, since they typically do not understand the meaning of what they’re generating, or any sense of urgency, hesitation, or other intonations that would be plainly obvious to a human speaker. They also struggle to adopt the natural character of a speaker, for example, whether they’re naturally enthusiastic or more deliberate and thoughtful.
 
 The way to address this problem is to build a TTS system using a Large Language Model (LLM) as a backbone. This endows the TTS system with the understanding needed to generate competent speech. Higgs Audio Generation enhances the underlying LLM to process audio by treating raw audio as tokens. This approach enables the model to be trained end-to-end on extensive text-audio datasets.
 

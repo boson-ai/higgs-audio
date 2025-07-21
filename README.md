@@ -1,9 +1,9 @@
 <h1 align="center">Higgs Audio V2: Redefining Expressiveness in Audio Generation</h1>
 
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
-  <a href="https://github.com/bosonai/higgs-audio"><img src='https://img.shields.io/badge/📝-Launch Blogpost-228B22' style="margin-right: 5px;"></a>
+  <a href="https://boson.ai/blog/higgs-audio-m2"><img src='https://img.shields.io/badge/📝-Launch Blogpost-228B22' style="margin-right: 5px;"></a>
   <a href="https://github.com/bosonai/higgs-audio"><img src="https://img.shields.io/badge/🚀-Playground-9C276A" style="margin-right: 5px;"></a>
-  <a href="https://huggingface.co/bosonai/higgs-audio-v2-generation-3B-base"><img src="https://img.shields.io/badge/🤗-Checkpoints-ED5A22.svg" style="margin-right: 5px;"></a>
+  <a href="https://huggingface.co/bosonai/higgs-audio-v2-generation-3B-base"><img src="https://img.shields.io/badge/🤗-Checkpoints (3.6B LLM + 2.2B audio adapter)-ED5A22.svg" style="margin-right: 5px;"></a>
 </div>
 
 
@@ -67,7 +67,7 @@ MODEL_PATH = "bosonai/higgs-audio-v2-generation-3B-base"
 AUDIO_TOKENIZER_PATH = "bosonai/higgs-audio-v2-tokenizer"
 
 system_prompt = (
-    "Generate audio following instruction.\n\n<|scene_desc_start|>\nSPEAKER0: british accent\n<|scene_desc_end|>"
+    "Generate audio following instruction.\n\n<|scene_desc_start|>\nAudio is recorded from a quiet room.\n<|scene_desc_end|>"
 )
 
 messages = [
@@ -87,7 +87,9 @@ serve_engine = HiggsAudioServeEngine(MODEL_PATH, AUDIO_TOKENIZER_PATH, device=de
 output: HiggsAudioResponse = serve_engine.generate(
     chat_ml_sample=ChatMLSample(messages=messages),
     max_new_tokens=1024,
-    temperature=1.0,
+    temperature=0.3,
+    ras_win_len=7,
+    ras_win_max_num_repeat=2,
     top_p=0.95,
     top_k=50,
     stop_strings=["<|end_of_text|>", "<|eot_id|>"],
@@ -99,13 +101,29 @@ torchaudio.save(f"output.wav", torch.from_numpy(output.audio)[None, :], output.s
 We also provide a list of examples under [examples](./examples). In the following we highlight a few examples to help you use Higgs Audio v2.
 
 ### Zero-Shot Voice Cloning
-Generate audio with specific voice characteristics (e.g., accents).
+Generate audio that sounds similar as the provided reference audio.
 
 ```bash
 python3 examples/generation.py \
 --transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
 --ref_audio belinda \
 --out_path generation.wav \
+--ras_win_len 7 \
+--ras_win_max_num_repeat 2 \
+--temperature 0.3 \
+--seed 12345
+```
+
+You can also try other voices
+
+```bash
+python3 examples/generation.py \
+--transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
+--ref_audio broom_salesman \
+--out_path generation.wav \
+--ras_win_len 7 \
+--ras_win_max_num_repeat 2 \
+--temperature 0.3 \
 --seed 12345
 ```
 
@@ -116,6 +134,9 @@ If you do not specify reference voice, the model will decide the voice based on 
 python3 examples/generation.py \
 --transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
 --out_path generation.wav \
+--ras_win_len 7 \
+--ras_win_max_num_repeat 2 \
+--temperature 0.3 \
 --seed 12345
 ```
 
@@ -127,7 +148,10 @@ Generate multi-speaker dialog. The model will decide the voices based on the tra
 python3 examples/generation.py \
 --transcript examples/transcript/multi_speaker/en_argument.txt \
 --out_path generation.wav \
---seed 1234
+--ras_win_len 7 \
+--ras_win_max_num_repeat 2 \
+--temperature 1.0 \
+--seed 12345
 ```
 
 ### Multi-speaker Dialog with Voice Clone
@@ -141,7 +165,10 @@ python3 examples/generation.py \
 --ref_audio_in_system_message \
 --chunk_method speaker \
 --out_path generation.wav \
---seed 1234
+--ras_win_len 7 \
+--ras_win_max_num_repeat 2 \
+--temperature 1.0 \
+--seed 12345
 ```
 
 
