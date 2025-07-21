@@ -1,9 +1,9 @@
 name: Unit Test
 on:
   push:
-    branches: [ higgs_audio_v2_release ]
+    branches: [ main ]
   pull_request:
-    branches: [ higgs_audio_v2_release ]
+    branches: [ main ]
 
 jobs:
   lint:
