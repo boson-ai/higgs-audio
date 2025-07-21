@@ -490,8 +490,9 @@ def prepare_generation_context(scene_prompt, ref_audio, ref_audio_in_system_mess
     help="The scene description prompt to use for generation. If not set, or set to `empty`, we will leave it to empty.",
 )
 @click.option(
-    "--temperature", 1.0,
+    "--temperature",
     type=float,
+    default=1.0,
     help="The value used to module the next token probabilities.",
 )
 @click.option(
