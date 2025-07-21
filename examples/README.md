@@ -1,9 +1,7 @@
-# Example script for using HiggsAudio-V2
+# Examples
 
 > [!NOTE]  
 > If you do not like the audio you get, you can generate multiple times with different seeds. In addition, you may need to apply text normalization to get the best performance, e.g. converting 70 °F to "seventy degrees Fahrenheit". Right now, the model has not been post-trained, we are working on post-training the model to further boosts and stabilize some of the emergent capabilities.
-
-We provide examples to explore the capability of HiggsAudio-V2.
 
 ## Single-speaker Audio Generation
 
@@ -82,7 +80,7 @@ python3 generation.py \
 
 ### Chunking for long-form audio generation
 
-To generate long-form audios, you can chunk the text and render each chunk one by one while putting the previous generated audio and the reference audio in the prompt. Here's an example that generates the first five paragraphs of HiggsAudio V1 release blog. See [text](./transcript/single_speaker/en_higgs_audio_blog.md).
+To generate long-form audios, you can chunk the text and render each chunk one by one while putting the previous generated audio and the reference audio in the prompt. Here's an example that generates the first five paragraphs of Higgs Audio v1 release blog. See [text](./transcript/single_speaker/en_higgs_audio_blog.md).
 
 ```bash
 python3 generation.py \

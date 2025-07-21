@@ -18,7 +18,7 @@ python run_hf_example.py voice_clone
 ```
 
 ### (Experimental) Interleaved Dialogue Generation
-HiggsAudio V2 is also able to generate text. Here's an example that shows it is able to generate multi-speaker conversations with interleaved transcript and audio from scene descriptions.
+Higgs Audio v2 is also able to generate text. Here's an example that shows it is able to generate multi-speaker conversations with interleaved transcript and audio from scene descriptions.
 
 ```bash
 python run_hf_example.py interleaved_dialogue
