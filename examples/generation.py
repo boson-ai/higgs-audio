@@ -623,8 +623,8 @@ def main(
     # Other normalizations (e.g., parentheses and other symbols. Will be improved in the future)
     transcript = transcript.replace("(", " ")
     transcript = transcript.replace(")", " ")
-    transcript = transcript.replace("°F", "degrees Fahrenheit")
-    transcript = transcript.replace("°C", "degrees Celsius")
+    transcript = transcript.replace("°F", " degrees Fahrenheit")
+    transcript = transcript.replace("°C", " degrees Celsius")
     lines = transcript.split("\n")
     transcript = "\n".join([" ".join(line.split()) for line in lines if line.strip()])
 
