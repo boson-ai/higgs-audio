@@ -17,7 +17,7 @@ python3 generation.py \
 
 The model will read the transcript with the same voice as in the [reference audio](./voice_prompts/broom_salesman.wav). The technique is also called shallow voice clone.
 
-We have some example audio prompts stored in [voice_prompts](voice_prompts). Feel free to pick one in the folder and try out the model. Here's another example that uses the voice of `belinda`.
+We have some example audio prompts stored in [voice_prompts](./voice_prompts/). Feel free to pick one in the folder and try out the model. Here's another example that uses the voice of `belinda`. You can also add new own favorite voice in the folder and clone the voice.
 
 ```bash
 python3 generation.py \
