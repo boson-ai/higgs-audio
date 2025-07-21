@@ -1,5 +1,12 @@
 <h1 align="center">Higgs Audio V2: Redefining Expressiveness in Audio Generation</h1>
 
+<div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
+  <a href="https://github.com/bosonai/higgs-audio"><img src='https://img.shields.io/badge/📝-Launch Blogpost-228B22' style="margin-right: 5px;"></a>
+  <a href="https://github.com/bosonai/higgs-audio"><img src="https://img.shields.io/badge/🚀-Playground-9C276A" style="margin-right: 5px;"></a>
+  <a href="https://huggingface.co/bosonai/higgs-audio-v2-generation-3B-base"><img src="https://img.shields.io/badge/🤗-Checkpoints_(3.6B text + 2.2B audio)-ED5A22.svg" style="margin-right: 5px;"></a>
+</div>
+
+
 We are open-sourcing Higgs Audio v2, a powerful audio foundation model pretrained on over 10 million hours of audio data and a diverse set of text data. Despite having no post-training or fine-tuning, Higgs Audio v2 excels in expressive audio generation, thanks to its deep language and acoustic understanding.
 
 On [EmergentTTS-Eval](https://github.com/boson-ai/emergenttts-eval-public), it achieves win rates of **75.7%** and **55.7%** over "gpt-4o-mini-tts" on the "Emotions" and "Questions" categories, respectively. It also obtains state-of-the-art performance on traditional TTS benchmarks like Seed-TTS Eval and Emotional Speech Dataset (ESD). Moreover, the model demonstrates capabilities rarely seen in previous systems, including generating natural multi-speaker dialogues in multiple languages, automatic prosody adaptation during narration, melodic humming with the cloned voice, and simultaneous generation of speech and background music.
