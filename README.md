@@ -81,7 +81,7 @@ uv pip install -e .
 ## Usage
 
 > [!TIP]
-> For optimal performance, run the generation examples on a machine equipped with GPU.
+> For optimal performance, run the generation examples on a machine equipped with GPU with at least 24GB memory!
 
 ### Get Started
 
