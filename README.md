@@ -175,7 +175,7 @@ Here's the performance of Higgs Audio v2 on four benchmarks,  [Seed-TTS Eval](ht
 
 #### Seed-TTS Eval & ESD
 
-We prompt Higgs Audio v2 with `<ref_text, ref_audio, text>` for zero-shot TTS. We adopt the standard evaluation metric in Seed-TTS Eval and ESD.
+We prompt Higgs Audio v2 with the reference text, reference audio, and target text for zero-shot TTS. We use the standard evaluation metrics from Seed-TTS Eval and ESD.
 
 |                              | SeedTTS-Eval| | ESD   |                 |
 |------------------------------|--------|--------|---------|-------------------|
@@ -215,7 +215,7 @@ We also designed a multi-speaker evaluation benchmark to evaluate the capability
 - `small talk (ref)`: 250 synthetic dialogues similar to above, but contains even shorter utterances as this set is meant to include reference clips in it's context, similar to `two-speaker-conversation`.
 
 
-We report the word-error-rate (WER) and the geometric mean between intra-speaker similarity and inter-speaker dis-similarity on these three subsets. Other than Higgs Audio v2, we also evaluated [MoonCast](https://github.com/jzq2000/MoonCast) and [nari-labs/Dia-1.6B-0626](https://huggingface.co/nari-labs/Dia-1.6B-0626). Results are summarized in the following table. We are not able to run [nari-labs/Dia-1.6B-0626](https://huggingface.co/nari-labs/Dia-1.6B-0626) on our "two-speaker-conversation" subset due to its strict limitation on the length of the utterances and output audio.
+We report the word-error-rate (WER) and the geometric mean between intra-speaker similarity and inter-speaker dis-similarity on these three subsets. Other than Higgs Audio v2, we also evaluated [MoonCast](https://github.com/jzq2000/MoonCast) and [nari-labs/Dia-1.6B-0626](https://huggingface.co/nari-labs/Dia-1.6B-0626), two of the most popular open-source models capable of multi-speaker dialog generation. Results are summarized in the following table. We are not able to run [nari-labs/Dia-1.6B-0626](https://huggingface.co/nari-labs/Dia-1.6B-0626) on our "two-speaker-conversation" subset due to its strict limitation on the length of the utterances and output audio.
 
 |                                                | two-speaker-conversation |                |small talk |                | small talk (no ref) |                |
 | ---------------------------------------------- | -------------- | ------------------ | ---------- | -------------- | ------------------- | -------------- |
