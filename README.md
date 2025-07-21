@@ -22,9 +22,32 @@ Here's the demo video that shows some of its emergent capabilities (remember to 
 
 ## Installation
 
-### Option 1: Using venv
+We recommend to use NVIDIA Deep Learning Container to manage the CUDA environment. Following are two docker images that we have verified:
+- nvcr.io/nvidia/pytorch:24.01-py3
+
+Here's an example command for launching a docker container via the following command. Also check the official NVIDIA documentation.
 
 ```bash
+docker run --gpus all --ipc=host --net=host --ulimit memlock=-1 --ulimit stack=67108864 -it --rm nvcr.io/nvidia/pytorch:24.01-py3 bash
+```
+
+### Option 1: Direct installation
+
+
+```bash
+git clone https://github.com/boson-ai/higgs-audio.git
+cd higgs-audio
+
+pip install -r requirements.txt
+pip install -e .
+```
+
+### Option 2: Using venv
+
+```bash
+git clone https://github.com/boson-ai/higgs-audio.git
+cd higgs-audio
+
 python3 -m venv higgs_audio_env
 source higgs_audio_env/bin/activate
 pip install -r requirements.txt
@@ -32,16 +55,22 @@ pip install -e .
 ```
 
 
-### Option 2: Using conda
+### Option 3: Using conda
 ```bash
-conda create -n higgs-audio python=3.10
-conda activate higgs-audio
+git clone https://github.com/boson-ai/higgs-audio.git
+cd higgs-audio
+
+conda create -n higgs_audio_env python=3.10
+conda activate higgs_audio_env
 pip install -r requirements.txt
 pip install -e .
 ```
 
-### Option 3: Using uv
+### Option 4: Using uv
 ```bash
+git clone https://github.com/boson-ai/higgs-audio.git
+cd higgs-audio
+
 uv venv --python 3.10
 source .venv/bin/activate
 uv pip install -r requirements.txt
