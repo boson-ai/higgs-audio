@@ -222,20 +222,19 @@ Following the [EmergentTTS-Eval Paper](https://arxiv.org/abs/2505.23009), we rep
 
 We also designed a multi-speaker evaluation benchmark to evaluate the capability of Higgs Audio v2 for multi-speaker dialog generation. The benchmark contains three subsets
 
-- `two-speaker-conversation`: 1000 synthetic dialogues involving two speakers. It contains two reference audio clips to evaluate the model’s ability in double voice cloning.
-- `small talk`: 250 synthetic dialogues characterized by short utterances and a limited number of turns (4–6). It also contains two reference audio clips to test double voice cloning, though the dialogues are shorter and simpler than those in two-speaker-conversation.
-- `small talk (no ref)`: 250 synthetic dialogues, also with short utterances and 4–6 turns. Unlike the other subsets, it does not include reference audio and is designed to evaluate the model’s ability to automatically assign appropriate voices to speakers.
+- `two-speaker-conversation`: 1000 synthetic dialogues involving two speakers. We fix two reference audio clips to evaluate the model's ability in double voice cloning for utterances ranging from 4 to 10 dialogues between two randomly chosen persona.
+- `small talk (no ref)`: 250 synthetic dialogues curated in the same way as above, but are characterized by short utterances and a limited number of turns (4–6), we do not fix reference audios in this case and this set is designed to evaluate the model's ability to automatically assign appropriate voices to speakers.
+- `small talk (ref)`: 250 synthetic dialogues similar to above, but contains even shorter utterances as this set is meant to include reference clips in it's context, similar to `two-speaker-conversation`.
 
 
-We evaluate the word-error-rate (WER) and the geometric mean between intra-speaker similarity and inter-speaker dis-similarity on these three subsets. Other than Higgs Audio v2, we also evaluated [MoonCast](https://github.com/jzq2000/MoonCast) and [nari-labs/dia](https://github.com/nari-labs/dia). Results are summarized in the following table. We are not able to run [nari-labs/dia](https://github.com/nari-labs/dia) on our "two-speaker-conversation" subset due to its strict limitation on the length of the utterances.
+We report the word-error-rate (WER) and the geometric mean between intra-speaker similarity and inter-speaker dis-similarity on these three subsets. Other than Higgs Audio v2, we also evaluated [MoonCast](https://github.com/jzq2000/MoonCast) and [nari-labs/Dia-1.6B-0626](https://huggingface.co/nari-labs/Dia-1.6B-0626). Results are summarized in the following table. We are not able to run [nari-labs/Dia-1.6B-0626](https://huggingface.co/nari-labs/Dia-1.6B-0626) on our "two-speaker-conversation" subset due to its strict limitation on the length of the utterances and output audio.
 
 |                                                | two-speaker-conversation |                |small talk |                | small talk (no ref) |                |
 | ---------------------------------------------- | -------------- | ------------------ | ---------- | -------------- | ------------------- | -------------- |
 |                                                | WER ↓                      | Mean Sim & Dis-sim ↑ | WER ↓       |  Mean Sim & Dis-sim ↑ | WER ↓               | Mean Sim & Dis-sim ↑ |
 | [MoonCast](https://github.com/jzq2000/MoonCast) | 38.77                    | 46.02         | **8.33**       | 63.68          | 24.65               | 53.94 |
-| [nari-labs/dia](https://github.com/nari-labs/dia)         | \-                       | \-             | 17.62      | 63.15          | 19.46               | **61.14**          |
+| [nari-labs/Dia-1.6B-0626](https://huggingface.co/nari-labs/Dia-1.6B-0626)         | \-                       | \-             | 17.62      | 63.15          | 19.46               | **61.14**          |
 | Higgs Audio v2 (base)     | **18.88**                    | **51.95**          | 11.89      | **67.92**              | **14.65**               | 55.28              |
-
 
 
 ## Third-Party Licenses
