@@ -617,8 +617,6 @@ def main(
         audio_tokenizer=audio_tokenizer,
         device_id=device_id,
         max_new_tokens=max_new_tokens,
-        top_k=top_k,
-        top_p=top_p,
         use_static_kv_cache=use_static_kv_cache,
     )
     pattern = re.compile(r"\[(SPEAKER\d+)\]")
@@ -675,6 +673,11 @@ def main(
         audio_ids=audio_ids,
         chunked_text=chunked_text,
         generation_chunk_buffer_size=generation_chunk_buffer_size,
+        temperature=temperature,
+        top_k=top_k,
+        top_p=top_p,
+        ras_win_len=ras_win_len,
+        ras_win_max_num_repeat=ras_win_max_num_repeat,
         seed=seed,
     )
 
