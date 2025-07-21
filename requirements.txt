@@ -18,5 +18,4 @@ omegaconf
 click
 langid
 jieba
-playsound
 accelerate>=0.26.0
