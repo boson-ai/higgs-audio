@@ -250,9 +250,21 @@ class HiggsAudioModelClient:
             kv_cache.reset()
 
     @torch.inference_mode()
-    def generate(self, messages, audio_ids, chunked_text, generation_chunk_buffer_size,
-                 temperature=1.0, top_k=50, top_p=0.95, ras_win_len=None, ras_win_max_num_repeat=2,
-                 seed=123, *args, **kwargs):
+    def generate(
+        self,
+        messages,
+        audio_ids,
+        chunked_text,
+        generation_chunk_buffer_size,
+        temperature=1.0,
+        top_k=50,
+        top_p=0.95,
+        ras_win_len=None,
+        ras_win_max_num_repeat=2,
+        seed=123,
+        *args,
+        **kwargs,
+    ):
         sr = 24000
         audio_out_ids_l = []
         generated_audio_ids = []
@@ -646,7 +658,7 @@ def main(
     transcript = "\n".join([" ".join(line.split()) for line in lines if line.strip()])
     transcript = transcript.strip()
 
-    if not any([transcript.endswith(c) for c in [".", "!", "?", ",", ";", "\"", "\'", "</SE_e>", "</SE>"]]):
+    if not any([transcript.endswith(c) for c in [".", "!", "?", ",", ";", '"', "'", "</SE_e>", "</SE>"]]):
         transcript += "."
 
     messages, audio_ids = prepare_generation_context(
