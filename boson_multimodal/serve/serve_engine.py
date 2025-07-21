@@ -171,7 +171,7 @@ class HiggsAudioResponse:
     generated_audio_tokens: Optional[np.ndarray] = None
     sampling_rate: Optional[int] = None
     generated_text: str = ""
-    generated_text_tokens: np.ndarray = np.array([])
+    generated_text_tokens: Optional[np.ndarray] = None
     usage: Optional[dict] = None
 
 
