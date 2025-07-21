@@ -620,9 +620,11 @@ def main(
 
     # Perform some basic normalization
     transcript = normalize_chinese_punctuation(transcript)
-    # Handle parentheses
+    # Other normalizations (e.g., parentheses and other symbols. Will be improved in the future)
     transcript = transcript.replace("(", " ")
     transcript = transcript.replace(")", " ")
+    transcript = transcript.replace("°F", " degrees Fahrenheit")
+    transcript = transcript.replace("°C", " degrees Celsius")
 
     messages, audio_ids = prepare_generation_context(
         scene_prompt=scene_prompt,

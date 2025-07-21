@@ -103,7 +103,7 @@ Generate audio with specific voice characteristics (e.g., accents).
 
 ```bash
 python3 examples/generation.py \
---transcript examples/transcript/single_speaker/en_basic.txt \
+--transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
 --ref_audio belinda \
 --out_path generation.wav \
 --seed 12345
@@ -114,7 +114,7 @@ If you do not specify reference voice, the model will decide the voice based on 
 
 ```bash
 python3 examples/generation.py \
---transcript examples/transcript/single_speaker/en_basic.txt \
+--transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
 --out_path generation.wav \
 --seed 12345
 ```
