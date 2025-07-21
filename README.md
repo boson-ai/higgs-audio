@@ -123,7 +123,6 @@ output: HiggsAudioResponse = serve_engine.generate(
     top_p=0.95,
     top_k=50,
     stop_strings=["<|end_of_text|>", "<|eot_id|>"],
-    seed=12345,
 )
 torchaudio.save(f"output.wav", torch.from_numpy(output.audio)[None, :], output.sampling_rate)
 ```
