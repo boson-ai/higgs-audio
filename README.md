@@ -24,8 +24,9 @@ Here's the demo video that shows some of its emergent capabilities (remember to 
 
 We recommend to use NVIDIA Deep Learning Container to manage the CUDA environment. Following are two docker images that we have verified:
 - nvcr.io/nvidia/pytorch:24.01-py3
+- nvcr.io/nvidia/pytorch:25.01-py3
 
-Here's an example command for launching a docker container via the following command. Also check the official NVIDIA documentation.
+Here's an example command for launching a docker container environment. Please also check the [official NVIDIA documentations](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/pytorch).
 
 ```bash
 docker run --gpus all --ipc=host --net=host --ulimit memlock=-1 --ulimit stack=67108864 -it --rm nvcr.io/nvidia/pytorch:24.01-py3 bash
