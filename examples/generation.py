@@ -185,16 +185,15 @@ class HiggsAudioModelClient:
         kv_cache_lengths: List[int] = [1024, 4096, 8192],  # Multiple KV cache sizes,
         use_static_kv_cache=False,
     ):
-        self._audio_tokenizer = (
-            load_higgs_audio_tokenizer(audio_tokenizer, device=f"cuda:{device_id}")
-            if isinstance(audio_tokenizer, str)
-            else audio_tokenizer
-        )
         if device_id is None:
             self._device = "cuda" if torch.cuda.is_available() else "cpu"
         else:
             self._device = f"cuda:{device_id}"
-
+        self._audio_tokenizer = (
+            load_higgs_audio_tokenizer(audio_tokenizer, device=self._device)
+            if isinstance(audio_tokenizer, str)
+            else audio_tokenizer
+        )
         self._model = HiggsAudioModel.from_pretrained(
             model_path,
             device_map=self._device,
