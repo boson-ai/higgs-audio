@@ -229,6 +229,7 @@ class HiggsAudioModelClient:
         if self._model.config.audio_dual_ffn_layers:
             cache_config.num_hidden_layers += len(self._model.config.audio_dual_ffn_layers)
         # A list of KV caches for different lengths
+        print(self._model.device)
         self.kv_caches = {
             length: StaticCache(
                 config=cache_config,
