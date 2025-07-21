@@ -50,6 +50,9 @@ uv pip install -e .
 
 ## Usage
 
+> [!TIP]
+> For optimal performance, run the generation examples on a machine equipped with GPU.
+
 ### Get Started
 
 Here's a basic python snippet to help you get started.
@@ -105,9 +108,8 @@ Generate audio that sounds similar as the provided reference audio.
 python3 examples/generation.py \
 --transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
 --ref_audio belinda \
---out_path generation.wav \
 --temperature 0.3 \
---seed 12345
+--out_path generation.wav
 ```
 
 You can also try other voices
@@ -116,9 +118,8 @@ You can also try other voices
 python3 examples/generation.py \
 --transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
 --ref_audio broom_salesman \
---out_path generation.wav \
 --temperature 0.3 \
---seed 12345
+--out_path generation.wav
 ```
 
 ### Single-speaker Generation with Smart Voice
@@ -127,9 +128,8 @@ If you do not specify reference voice, the model will decide the voice based on 
 ```bash
 python3 examples/generation.py \
 --transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
---out_path generation.wav \
 --temperature 0.3 \
---seed 12345
+--out_path generation.wav
 ```
 
 
@@ -139,9 +139,7 @@ Generate multi-speaker dialog. The model will decide the voices based on the tra
 ```bash
 python3 examples/generation.py \
 --transcript examples/transcript/multi_speaker/en_argument.txt \
---out_path generation.wav \
---temperature 1.0 \
---seed 12345
+--out_path generation.wav
 ```
 
 ### Multi-speaker Dialog with Voice Clone
@@ -154,9 +152,7 @@ python3 examples/generation.py \
 --ref_audio belinda,broom_salesman \
 --ref_audio_in_system_message \
 --chunk_method speaker \
---out_path generation.wav \
---temperature 1.0 \
---seed 12345
+--out_path generation.wav
 ```
 
 
