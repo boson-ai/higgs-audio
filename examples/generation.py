@@ -606,10 +606,9 @@ def main(
     pattern = re.compile(r"\[(SPEAKER\d+)\]")
 
     if os.path.exists(transcript):
+        logger.info(f"Loading transcript from {transcript}")
         with open(transcript, "r", encoding="utf-8") as f:
             transcript = f.read().strip()
-    else:
-        raise ValueError(f"Transcript file {transcript} does not exist.")
 
     if scene_prompt is not None and scene_prompt != "empty" and os.path.exists(scene_prompt):
         with open(scene_prompt, "r", encoding="utf-8") as f:
