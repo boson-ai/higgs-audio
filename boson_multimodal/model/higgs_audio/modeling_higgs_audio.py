@@ -2279,6 +2279,7 @@ class HiggsAudioModel(HiggsAudioPreTrainedModel, GenerationMixin):
                     output_hidden_states=False,
                     is_decoding_audio_token=is_decoding_audio_token,
                     is_using_cuda_graph=True,
+                    stream=torch.cuda.current_stream(self.device),
                 )
 
                 self.decode_graph_runners[kv_cache_length][is_decoding_audio_token] = runner
