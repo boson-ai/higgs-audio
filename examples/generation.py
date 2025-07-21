@@ -654,12 +654,21 @@ def main(
     transcript = transcript.replace(")", " ")
     transcript = transcript.replace("°F", " degrees Fahrenheit")
     transcript = transcript.replace("°C", " degrees Celsius")
-    transcript = transcript.replace("[laugh]", "<SE>[Laughter]</SE>")
-    transcript = transcript.replace("[humming start]", "<SE_s>[Humming]</SE_s>")
-    transcript = transcript.replace("[humming end]", "<SE_e>[Humming]</SE_e>")
-    transcript = transcript.replace("[music start]", "<SE_s>[Music]</SE_s>")
-    transcript = transcript.replace("[music end]", "<SE_e>[Music]</SE_e>")
-    transcript = transcript.replace("[music]", "<SE>[Music]</SE>")
+
+    for tag, replacement in [
+        ("[laugh]", "<SE>[Laughter]</SE>"),
+        ("[humming start]", "<SE>[Humming]</SE>"),
+        ("[humming end]", "<SE_e>[Humming]</SE_e>"),
+        ("[music start]", "<SE_s>[Music]</SE_s>"),
+        ("[music end]", "<SE_e>[Music]</SE_e>"),
+        ("[music]", "<SE>[Music]</SE>"),
+        ("[sing start]", "<SE_s>[Singing]</SE_s>"),
+        ("[sing end]", "<SE_e>[Singing]</SE_e>"),
+        ("[applause]", "<SE>[Applause]</SE>"),
+        ("[cheering]", "<SE>[Cheering]</SE>"),
+        ("[cough]", "<SE>[Cough]</SE>"),
+    ]:
+        transcript = transcript.replace(tag, replacement)
     lines = transcript.split("\n")
     transcript = "\n".join([" ".join(line.split()) for line in lines if line.strip()])
     transcript = transcript.strip()
