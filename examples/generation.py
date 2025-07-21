@@ -627,6 +627,9 @@ def main(
     transcript = transcript.replace("°C", " degrees Celsius")
     lines = transcript.split("\n")
     transcript = "\n".join([" ".join(line.split()) for line in lines if line.strip()])
+    transcript = transcript.strip()
+    if not transcript.endswith([".", "!", "?", "</SE_e>", "</SE>"]):
+        transcript += "."
 
     messages, audio_ids = prepare_generation_context(
         scene_prompt=scene_prompt,
