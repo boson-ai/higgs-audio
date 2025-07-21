@@ -464,13 +464,13 @@ def prepare_generation_context(scene_prompt, ref_audio, ref_audio_in_system_mess
 @click.option(
     "--model_path",
     type=str,
-    default="bosonai/higgs-audio-v2-generation-3B-staging",
+    default="bosonai/higgs-audio-v2-generation-3B-base",
     help="Output wav file path.",
 )
 @click.option(
     "--audio_tokenizer",
     type=str,
-    default="bosonai/higgs-audio-v2-tokenizer-staging",
+    default="bosonai/higgs-audio-v2-tokenizer",
     help="Audio tokenizer path, if not set, use the default one.",
 )
 @click.option(
