@@ -168,9 +168,10 @@ You can also let "Broom Salesman" talking to "Belinda", who recently trained Hig
 python3 generation.py \
 --transcript transcript/multi_speaker/en_higgs.txt \
 --ref_audio broom_salesman,belinda \
---ref_audio_in_system_message \
---chunk_method speaker \
 --ras_win_len 7 \
 --ras_win_max_num_repeat 2 \
+--ref_audio_in_system_message \
+--chunk_method speaker \
+--chunk_max_num_turns 2 \
 --seed 12345
 ```
