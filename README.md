@@ -3,7 +3,7 @@
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
   <a href="https://github.com/bosonai/higgs-audio"><img src='https://img.shields.io/badge/📝-Launch Blogpost-228B22' style="margin-right: 5px;"></a>
   <a href="https://github.com/bosonai/higgs-audio"><img src="https://img.shields.io/badge/🚀-Playground-9C276A" style="margin-right: 5px;"></a>
-  <a href="https://huggingface.co/bosonai/higgs-audio-v2-generation-3B-base"><img src="https://img.shields.io/badge/🤗-Checkpoints_(3.6B text + 2.2B audio)-ED5A22.svg" style="margin-right: 5px;"></a>
+  <a href="https://huggingface.co/bosonai/higgs-audio-v2-generation-3B-base"><img src="https://img.shields.io/badge/🤗-Checkpoints-ED5A22.svg" style="margin-right: 5px;"></a>
 </div>
 
 

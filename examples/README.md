@@ -1,7 +1,7 @@
 # Examples
 
 > [!NOTE]  
-> If you do not like the audio you get, you can generate multiple times with different seeds. In addition, you may need to apply text normalization to get the best performance, e.g. converting 70 °F to "seventy degrees Fahrenheit". Right now, the model has not been post-trained, we are working on post-training the model to further boosts and stabilize some of the emergent capabilities.
+> If you do not like the audio you get, you can generate multiple times with different seeds. In addition, you may need to apply text normalization to get the best performance, e.g. converting 70 °F to "seventy degrees Fahrenheit". The model also performs better in longer sentences. Right now, the model has not been post-trained, we are working on post-training the model to further boosts its capability.
 
 ## Single-speaker Audio Generation
 
