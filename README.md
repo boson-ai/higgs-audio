@@ -112,7 +112,18 @@ python3 examples/generation.py \
 --out_path generation.wav
 ```
 
-You can also try other voices
+The generation script will automatically use `cuda:0` if it founds cuda is available. To change the device id, specify `--device_id`:
+
+```bash
+python3 examples/generation.py \
+--transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
+--ref_audio belinda \
+--temperature 0.3 \
+--device_id 0 \
+--out_path generation.wav
+```
+
+You can also try other voices. Check more example voices in [examples/voice_prompts](./examples/voice_prompts). You can also add your own voice to the folder.
 
 ```bash
 python3 examples/generation.py \
