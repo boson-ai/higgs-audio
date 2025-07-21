@@ -102,7 +102,7 @@ torchaudio.save(f"output.wav", torch.from_numpy(output.audio)[None, :], output.s
 We also provide a list of examples under [examples](./examples). In the following we highlight a few examples to help you use Higgs Audio v2.
 
 ### Zero-Shot Voice Cloning
-Generate audio that sounds similar as the provided reference audio.
+Generate audio that sounds similar as the provided [reference audio](./examples/voice_prompts/belinda.wav).
 
 ```bash
 python3 examples/generation.py \
@@ -150,6 +150,7 @@ Generate multi-speaker dialog. The model will decide the voices based on the tra
 ```bash
 python3 examples/generation.py \
 --transcript examples/transcript/multi_speaker/en_argument.txt \
+--seed 12345 \
 --out_path generation.wav
 ```
 
@@ -163,6 +164,7 @@ python3 examples/generation.py \
 --ref_audio belinda,broom_salesman \
 --ref_audio_in_system_message \
 --chunk_method speaker \
+--seed 12345 \
 --out_path generation.wav
 ```
 
