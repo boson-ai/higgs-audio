@@ -2,7 +2,7 @@
 
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
   <a href="https://boson.ai/blog/higgs-audio-m2"><img src='https://img.shields.io/badge/📝-Launch Blogpost-228B22' style="margin-right: 5px;"></a>
-  <a href="https://github.com/bosonai/higgs-audio"><img src="https://img.shields.io/badge/🚀-Playground-9C276A" style="margin-right: 5px;"></a>
+  <a href="https://boson.ai/demo/tts"><img src="https://img.shields.io/badge/🚀-Playground-9C276A" style="margin-right: 5px;"></a>
   <a href="https://huggingface.co/bosonai/higgs-audio-v2-generation-3B-base"><img src="https://img.shields.io/badge/🤗-Checkpoints (3.6B LLM + 2.2B audio adapter)-ED5A22.svg" style="margin-right: 5px;"></a>
 </div>
 
