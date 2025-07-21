@@ -344,7 +344,7 @@ class HiggsAudioServeEngine:
         top_p: float = 0.95,
         stop_strings: Optional[List[str]] = None,
         force_audio_gen: bool = False,
-        ras_win_len: Optional[int] = None,
+        ras_win_len: Optional[int] = 7,
         ras_win_max_num_repeat: int = 2,
         seed: Optional[int] = None,
     ):
@@ -355,6 +355,10 @@ class HiggsAudioServeEngine:
             max_new_tokens: The maximum number of new tokens to generate.
             temperature: The temperature to use for the generation.
             top_p: The top p to use for the generation.
+            stop_strings: A list of strings to stop the generation.
+            force_audio_gen: Whether to force audio generation. This ensures the model generates audio tokens rather than text tokens.
+            ras_win_len: The length of the RAS window. We use 7 by default. You can disable it by setting it to None or <=0.
+            ras_win_max_num_repeat: The maximum number of times to repeat the RAS window.
         Returns:
             A dictionary with the following keys:
                 audio: The generated audio.
@@ -363,6 +367,8 @@ class HiggsAudioServeEngine:
         # Default stop strings
         if stop_strings is None:
             stop_strings = ["<|end_of_text|>", "<|eot_id|>"]
+        if ras_win_len is not None and ras_win_len <= 0:
+            ras_win_len = None
 
         with torch.no_grad():
             inputs = self._prepare_inputs(chat_ml_sample, force_audio_gen=force_audio_gen)

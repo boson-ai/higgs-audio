@@ -259,12 +259,14 @@ class HiggsAudioModelClient:
         temperature=1.0,
         top_k=50,
         top_p=0.95,
-        ras_win_len=None,
+        ras_win_len=7,
         ras_win_max_num_repeat=2,
         seed=123,
         *args,
         **kwargs,
     ):
+        if ras_win_len is not None and ras_win_len <= 0:
+            ras_win_len = None
         sr = 24000
         audio_out_ids_l = []
         generated_audio_ids = []
@@ -522,8 +524,8 @@ def prepare_generation_context(scene_prompt, ref_audio, ref_audio_in_system_mess
 @click.option(
     "--ras_win_len",
     type=int,
-    default=None,
-    help="The window length for RAS sampling. If not set, we won't use RAS sampling.",
+    default=7,
+    help="The window length for RAS sampling. If set to 0 or a negative value, we won't use RAS sampling.",
 )
 @click.option(
     "--ras_win_max_num_repeat",

@@ -88,8 +88,6 @@ output: HiggsAudioResponse = serve_engine.generate(
     chat_ml_sample=ChatMLSample(messages=messages),
     max_new_tokens=1024,
     temperature=0.3,
-    ras_win_len=7,
-    ras_win_max_num_repeat=2,
     top_p=0.95,
     top_k=50,
     stop_strings=["<|end_of_text|>", "<|eot_id|>"],
@@ -108,8 +106,6 @@ python3 examples/generation.py \
 --transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
 --ref_audio belinda \
 --out_path generation.wav \
---ras_win_len 7 \
---ras_win_max_num_repeat 2 \
 --temperature 0.3 \
 --seed 12345
 ```
@@ -121,8 +117,6 @@ python3 examples/generation.py \
 --transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
 --ref_audio broom_salesman \
 --out_path generation.wav \
---ras_win_len 7 \
---ras_win_max_num_repeat 2 \
 --temperature 0.3 \
 --seed 12345
 ```
@@ -134,8 +128,6 @@ If you do not specify reference voice, the model will decide the voice based on 
 python3 examples/generation.py \
 --transcript "The sun rises in the east and sets in the west. This simple fact has been observed by humans for thousands of years." \
 --out_path generation.wav \
---ras_win_len 7 \
---ras_win_max_num_repeat 2 \
 --temperature 0.3 \
 --seed 12345
 ```
@@ -148,8 +140,6 @@ Generate multi-speaker dialog. The model will decide the voices based on the tra
 python3 examples/generation.py \
 --transcript examples/transcript/multi_speaker/en_argument.txt \
 --out_path generation.wav \
---ras_win_len 7 \
---ras_win_max_num_repeat 2 \
 --temperature 1.0 \
 --seed 12345
 ```
@@ -165,8 +155,6 @@ python3 examples/generation.py \
 --ref_audio_in_system_message \
 --chunk_method speaker \
 --out_path generation.wav \
---ras_win_len 7 \
---ras_win_max_num_repeat 2 \
 --temperature 1.0 \
 --seed 12345
 ```
