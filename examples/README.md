@@ -11,7 +11,8 @@
 python3 generation.py \
 --transcript transcript/single_speaker/en_dl.txt \
 --ref_audio broom_salesman \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
 
 The model will read the transcript with the same voice as in the [reference audio](./voice_prompts/broom_salesman.wav). The technique is also called shallow voice clone.
@@ -22,7 +23,8 @@ We have some example audio prompts stored in [voice_prompts](voice_prompts). Fee
 python3 generation.py \
 --transcript transcript/single_speaker/en_dl.txt \
 --ref_audio belinda \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
 
 #### (Experimental) Cross-lingual voice clone
@@ -35,7 +37,8 @@ python3 generation.py \
 --scene_prompt empty \
 --ref_audio zh_man_sichuan \
 --temperature 0.3 \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
 
 ### Smart voice
@@ -45,7 +48,8 @@ The model supports reading the transcript with a random voice.
 ```bash
 python3 generation.py \
 --transcript transcript/single_speaker/en_dl.txt \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
 
 It also works for other languages like Chinese.
@@ -53,7 +57,8 @@ It also works for other languages like Chinese.
 ```bash
 python3 generation.py \
 --transcript transcript/single_speaker/zh_ai.txt \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
 
 ### Describe speaker characteristics with text
@@ -65,13 +70,15 @@ The model allows you to describe the speaker via text. See [voice_prompts/profil
 python3 generation.py \
 --transcript transcript/single_speaker/en_dl.txt \
 --ref_audio profile:male_en_british \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 
 # Female British Accent
 python3 generation.py \
 --transcript transcript/single_speaker/en_dl.txt \
 --ref_audio profile:female_en_british \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
 
 ### Chunking for long-form audio generation
@@ -86,7 +93,8 @@ python3 generation.py \
 --chunk_method word \
 --temperature 0.3 \
 --generation_chunk_buffer_size 2 \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
 
 ### Experimental and Emergent Capabilities
@@ -101,7 +109,8 @@ python3 generation.py \
 --transcript transcript/single_speaker/experimental/en_humming.txt \
 --ref_audio en_woman \
 --ras_win_len 0 \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
 
 #### (Experimental) Read the sentence while adding background music (BGM)
@@ -112,7 +121,8 @@ python3 generation.py \
 --ref_audio en_woman \
 --ras_win_len 0 \
 --ref_audio_in_system_message \
---seed 123456
+--seed 123456 \
+--out_path generation.wav
 ```
 
 ## Multi-speaker Audio Generation
@@ -125,7 +135,8 @@ To get started to explore HiggsAudio's capability in generating multi-speaker au
 ```bash
 python3 generation.py \
 --transcript transcript/multi_speaker/en_argument.txt \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
 
 ### Multi-voice clone
@@ -137,7 +148,8 @@ python3 generation.py \
 --ref_audio belinda,broom_salesman \
 --ref_audio_in_system_message \
 --chunk_method speaker \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
 
 You can also let "Broom Salesman" talking to "Belinda", who recently trained HiggsAudio.
@@ -149,5 +161,6 @@ python3 generation.py \
 --ref_audio_in_system_message \
 --chunk_method speaker \
 --chunk_max_num_turns 2 \
---seed 12345
+--seed 12345 \
+--out_path generation.wav
 ```
