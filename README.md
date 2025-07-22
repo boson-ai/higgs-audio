@@ -83,6 +83,12 @@ uv pip install -r requirements.txt
 uv pip install -e .
 ```
 
+### Option 5: Using vllm
+
+For advanced usage with higher throughput, we also built OpenAI compatible API server backed by vLLM engine for you to use.
+Please refer to [examples/vllm](./examples/vllm) for more details.
+
+
 ## Usage
 
 > [!TIP]
