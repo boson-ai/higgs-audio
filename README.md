@@ -17,7 +17,12 @@ On [EmergentTTS-Eval](https://github.com/boson-ai/emergenttts-eval-public), it a
 
 Here's the demo video that shows some of its emergent capabilities (remember to unmute):
 
-<video src="https://github.com/user-attachments/assets/0fd73fad-097f-48a9-9f3f-bc2a63b3818d" type="video/mp4">
+<video src="https://github.com/user-attachments/assets/0fd73fad-097f-48a9-9f3f-bc2a63b3818d" type="video/mp4" width="80%" controls>
+</video>
+
+Here's another demo video that show-cases the model's multilingual capability and how it can be used to enable live translation (remember to unmute):
+
+<video src="https://github.com/user-attachments/assets/2b9b01ff-67fc-4bd9-9714-7c7df09e38d6" type="video/mp4" width="80%" controls>
 </video>
 
 ## Installation
