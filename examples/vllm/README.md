@@ -4,7 +4,7 @@ We provided both OpenAI compatible chat completion and audio speech server backe
 
 ```bash
 docker run --gpus all --ipc=host --shm-size=20gb --network=host \
-bosonai/higgs_audio_vllm:latest \
+bosonai/higgs-audio-vllm:latest \
 --served-model-name "higgs-audio-v2-generation-3B-base" \
 --model "bosonai/higgs-audio-v2-generation-3B-base"  \
 --audio-tokenizer-type "bosonai/higgs-audio-v2-tokenizer" \
