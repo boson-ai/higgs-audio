@@ -21,6 +21,20 @@ In audio speech API, we provided the same voices as the [voice_prompts](../voice
 --voice-presets-dir YOUR_VOICE_PRESETS_PATH
 ```
 
+And in the voice presets directory, you need to add `config.json` file for each voice in the following format:
+```json
+{
+    "belinda": {
+        "transcript": "Twas the night before my birthday. Hooray! It's almost here! It may not be a holiday, but it's the best day of the year.",
+        "audio_file": "belinda.wav"
+    },
+    "broom_salesman": {
+        "transcript": "I would imagine so. A wand with a dragon heartstring core is capable of dazzling magic. And the bond between you and your wand should only grow stronger. Do not be surprised at your new wand's ability to perceive your intentions - particularly in a moment of need.",
+        "audio_file": "broom_salesman.wav"
+    }
+}
+```
+
 We tested on A100 GPU with 40GB memory, which can achieve about 1500 tokens/s throughput for audio generation, which translate to 60 seconds audio generation per second with higgs-audio-tokenizer.
 We also tested on RTX 4090 GPU with 24GB memory, which can achieve about 600 tokens/s throughput for audio generation, which translate to 24 seconds audio generation per second.
 
