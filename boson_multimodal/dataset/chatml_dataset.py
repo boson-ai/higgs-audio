@@ -15,6 +15,9 @@ from ..constants import AUDIO_IN_TOKEN, AUDIO_OUT_TOKEN
 
 from loguru import logger
 
+# add lru_cache import
+from functools import lru_cache
+
 # Whisper processor, 30 sec -> 3000 features
 # Then we divide 4 in the audio towker, we decrease 3000 features to 750, which gives 25 Hz
 WHISPER_EMBED_NUM_HIDDEN_STATE_PER_SEC = 25
@@ -391,7 +394,13 @@ def prepare_chatml_sample(sample: Union[ChatMLSample, Dict], tokenizer):
             eot_postfix = "<|eot_id|>"
             eom_postfix = "<|eom_id|>"
 
-            prefix_tokens = tokenizer.encode(prefix, add_special_tokens=False)
+            # Add token caching mechanism
+            @lru_cache(maxsize=128)
+            def cached_encode(text):
+                return tokenizer.encode(text, add_special_tokens=False)
+
+            # Use cached_encode instead of direct tokenizer.encode calls
+            prefix_tokens = cached_encode(prefix)
             input_tokens.extend(prefix_tokens)
             label_tokens.extend([-100 for _ in prefix_tokens])
 

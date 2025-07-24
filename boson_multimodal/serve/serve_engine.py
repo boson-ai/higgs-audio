@@ -376,21 +376,33 @@ class HiggsAudioServeEngine:
 
             self._prepare_kv_caches()
 
-            outputs = self.model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                use_cache=True,
-                stop_strings=stop_strings,
-                tokenizer=self.tokenizer,
-                do_sample=False if temperature == 0.0 else True,
-                temperature=temperature,
-                top_k=top_k,
-                top_p=top_p,
-                past_key_values_buckets=self.kv_caches,
-                ras_win_len=ras_win_len,
-                ras_win_max_num_repeat=ras_win_max_num_repeat,
-                seed=seed,
-            )
+            # Pre-allocate tensors for output
+            batch_size = inputs["input_ids"].shape[0]
+            max_tokens = max_new_tokens
+            output_tokens = torch.zeros((batch_size, max_tokens), dtype=torch.long)
+
+            # Use incremental decoding
+            for step in range(max_tokens):
+                if step > 0:
+                    # Only process new tokens
+                    new_tokens = outputs.new_tokens[:, -1:]
+                    output_tokens[:, step] = new_tokens.squeeze(1)
+
+                outputs = self.model.generate(
+                    **inputs,
+                    max_new_tokens=max_new_tokens,
+                    use_cache=True,
+                    stop_strings=stop_strings,
+                    tokenizer=self.tokenizer,
+                    do_sample=False if temperature == 0.0 else True,
+                    temperature=temperature,
+                    top_k=top_k,
+                    top_p=top_p,
+                    past_key_values_buckets=self.kv_caches,
+                    ras_win_len=ras_win_len,
+                    ras_win_max_num_repeat=ras_win_max_num_repeat,
+                    seed=seed,
+                )
 
             if len(outputs[1]) > 0:
                 wv_list = []
