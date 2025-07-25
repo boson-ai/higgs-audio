@@ -304,7 +304,7 @@ class HiggsAudioTokenizer(nn.Module):
         quantized_acoustic = self.fc_post2(quantized).transpose(1, 2)
 
         o = self.decoder_2(quantized_acoustic)
-        return o.cpu().numpy()
+        return o.detach().cpu().numpy()
 
 
 def load_higgs_audio_tokenizer(tokenizer_name_or_path, device="cuda"):
