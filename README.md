@@ -67,10 +67,14 @@ pip install -e .
 git clone https://github.com/boson-ai/higgs-audio.git
 cd higgs-audio
 
-conda create -n higgs_audio_env python=3.10
-conda activate higgs_audio_env
+conda create -y --prefix ./conda_env --override-channels --strict-channel-priority --channel "conda-forge" "python==3.10.*"
+conda activate ./conda_env
 pip install -r requirements.txt
 pip install -e .
+
+# Uninstalling environment:
+conda deactivate
+conda remove -y --prefix ./conda_env --all
 ```
 
 ### Option 4: Using uv
