@@ -460,7 +460,11 @@ class HiggsAudioServeEngine:
 
             self._prepare_kv_caches()
 
-            streamer = AsyncHiggsAudioStreamer(self.tokenizer, skip_prompt=True)
+            streamer = AsyncHiggsAudioStreamer(
+                self.tokenizer,
+                audio_num_codebooks=self.model.config.audio_num_codebooks,
+                skip_prompt=True,
+            )
             generation_kwargs = dict(
                 **inputs,
                 max_new_tokens=max_new_tokens,
