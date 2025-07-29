@@ -616,10 +616,10 @@ def prepare_generation_context(scene_prompt, ref_audio, ref_audio_in_system_mess
     help="Whether to use static KV cache for faster generation. Only works when using GPU.",
 )
 @click.option(
-    "--acc",
+    "--device",
     type=click.Choice(["auto", "cuda", "mps", "none"]),
     default="auto",
-    help="Device acceleration mode: 'auto' (pick best available), 'cuda', 'mps', or 'none' (CPU only).",
+    help="Device to use: 'auto' (pick best available), 'cuda', 'mps', or 'none' (CPU only).",
 )
 def main(
     model_path,
@@ -642,11 +642,11 @@ def main(
     device_id,
     out_path,
     use_static_kv_cache,
-    acc,
+    device,
 ):
     # specifying a device_id implies CUDA
     if device_id is None:
-        if acc == "auto":
+        if device == "auto":
             if torch.cuda.is_available():
                 device_id = 0
                 device = "cuda:0"
@@ -656,10 +656,10 @@ def main(
             else:
                 device_id = None
                 device = "cpu"
-        elif acc == "cuda":
+        elif device == "cuda":
             device_id = 0
             device = "cuda:0"
-        elif acc == "mps":
+        elif device == "mps":
             device_id = None
             device = "mps"
         else:
