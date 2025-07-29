@@ -107,7 +107,8 @@ class AsyncHiggsAudioStreamer(BaseStreamer):
             # This is likely audio tokens (shape: [audio_num_codebooks])
             assert value.shape[0] == self.audio_num_codebooks, "Number of codebooks mismatch"
             delta = HiggsAudioStreamerDelta(audio_tokens=value)
-            self.loop.call_soon_threadsafe(self.queue.put_nowait, delta)
+            if self.loop.is_running():
+                self.loop.call_soon_threadsafe(self.queue.put_nowait, delta)
             return
 
         # Skip prompt tokens if configured
@@ -121,12 +122,14 @@ class AsyncHiggsAudioStreamer(BaseStreamer):
 
         text = self.tokenizer.decode(value, **self.decode_kwargs)
         delta = HiggsAudioStreamerDelta(text=text, text_tokens=value)
-        self.loop.call_soon_threadsafe(self.queue.put_nowait, delta)
+        if self.loop.is_running():
+            self.loop.call_soon_threadsafe(self.queue.put_nowait, delta)
 
     def end(self):
         """Flushes any remaining text tokens and signals the end of generation."""
         self.next_tokens_are_prompt = True
-        self.loop.call_soon_threadsafe(self.queue.put_nowait, self.stop_signal)
+        if self.loop.is_running():
+            self.loop.call_soon_threadsafe(self.queue.put_nowait, self.stop_signal)
 
     def __aiter__(self):
         return self

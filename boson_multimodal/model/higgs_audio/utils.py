@@ -88,24 +88,22 @@ def build_delay_pattern_mask(
     return input_ids, input_ids_with_gen_mask
 
 
-def revert_delay_pattern(data, start_idx=0):
+def revert_delay_pattern(data):
     """Convert samples encoded with delay pattern back to the original form.
 
     Args:
         data (:obj:`torch.Tensor`):
             The data with delay pattern applied. It will have shape (num_codebooks, seq_len + num_codebooks - 1).
-        start_idx (:obj:`int`): start index for the delay pattern.
 
     Returns:
         ret (:obj:`torch.Tensor`):
             Recovered data with delay pattern removed. It will have shape (num_codebooks, seq_len).
     """
     assert len(data.shape) == 2
-    assert data.shape[1] - data.shape[0] >= start_idx
     out_l = []
     num_codebooks = data.shape[0]
     for i in range(num_codebooks):
-        out_l.append(data[i : (i + 1), i + start_idx : (data.shape[1] - num_codebooks + 1 + i)])
+        out_l.append(data[i : (i + 1), i : (data.shape[1] - num_codebooks + 1 + i)])
     return torch.cat(out_l, dim=0)
 
 
