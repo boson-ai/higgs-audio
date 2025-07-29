@@ -122,7 +122,7 @@ python examples/generation.py --transcript examples/transcript/multi_speaker/en_
 
 ### 2. Gradio Web Interface
 
-![Higgs Audio V2 Gradio Interface](docs/gradio_ui_screenshot.png)
+![Higgs Audio V2 Gradio Interface](ui.png)
 
 The web interface provides an intuitive way to use Higgs Audio V2 without command line knowledge.
 

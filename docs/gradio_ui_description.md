@@ -52,16 +52,12 @@ The interface is structured into three main logical sections:
 
 ## Usage Instructions
 
-To add the actual screenshot:
-
-1. Take a screenshot of the Gradio interface running at `http://localhost:7860`
-2. Save it as `docs/gradio_ui_screenshot.png`
-3. Update the documentation to reference this image
+The UI screenshot has been added as `ui.png` in the root directory.
 
 ## Markdown Reference
 
 ```markdown
-![Higgs Audio V2 Gradio Interface](docs/gradio_ui_screenshot.png)
+![Higgs Audio V2 Gradio Interface](ui.png)
 ```
 
 This image should be added to:

@@ -2,7 +2,7 @@
 
 A user-friendly web interface for Higgs Audio V2 that makes it easy to generate speech from text without using the command line.
 
-![Higgs Audio V2 Gradio Interface](docs/gradio_ui_screenshot.png)
+![Higgs Audio V2 Gradio Interface](ui.png)
 
 *The Gradio interface provides an intuitive web-based UI for text-to-speech generation*
 
