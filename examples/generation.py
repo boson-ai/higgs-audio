@@ -192,7 +192,7 @@ class HiggsAudioModelClient:
         else:
             if device is not None:
                 self._device = device
-            else: # We get to choose the device
+            else:  # We get to choose the device
                 # Prefer CUDA over MPS (Apple Silicon GPU) over CPU if available
                 if torch.cuda.is_available():
                     self._device = "cuda:0"
@@ -208,7 +208,7 @@ class HiggsAudioModelClient:
             self._audio_tokenizer = load_higgs_audio_tokenizer(audio_tokenizer, device=audio_tokenizer_device)
         else:
             self._audio_tokenizer = audio_tokenizer
-            
+
         self._model = HiggsAudioModel.from_pretrained(
             model_path,
             device_map=self._device,
@@ -371,13 +371,13 @@ class HiggsAudioModelClient:
         logger.info(f"========= Final Text output =========")
         logger.info(self._tokenizer.decode(outputs[0][0]))
         concat_audio_out_ids = torch.concat(audio_out_ids_l, dim=1)
-        
+
         # Fix MPS compatibility: detach and move to CPU before decoding
         if concat_audio_out_ids.device.type in ["mps", "cuda"]:
             concat_audio_out_ids_cpu = concat_audio_out_ids.detach().cpu()
         else:
             concat_audio_out_ids_cpu = concat_audio_out_ids
-        
+
         concat_wv = self._audio_tokenizer.decode(concat_audio_out_ids_cpu.unsqueeze(0))[0, 0]
         text_result = self._tokenizer.decode(outputs[0][0])
         return concat_wv, sr, text_result
@@ -682,7 +682,7 @@ def main(
         max_new_tokens=max_new_tokens,
         use_static_kv_cache=use_static_kv_cache,
     )
-    
+
     pattern = re.compile(r"\[(SPEAKER\d+)\]")
 
     if os.path.exists(transcript):
