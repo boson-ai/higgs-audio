@@ -1,5 +1,5 @@
 descript-audio-codec
-torch
+torch==2.4.1
 transformers>=4.45.1,<4.47.0
 librosa
 dacite
