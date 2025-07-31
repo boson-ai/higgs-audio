@@ -1,19 +1,22 @@
 # Prediction interface for Cog ⚙️
 # https://cog.run/python
-from cog import BasePredictor, Input, Path
 import os
+import subprocess
 import time
+
 import torch
 import torchaudio
-import subprocess
-from typing import Optional
-from boson_multimodal.serve.serve_engine import HiggsAudioServeEngine, HiggsAudioResponse
-from boson_multimodal.data_types import ChatMLSample, Message, AudioContent
+from cog import BasePredictor, Input, Path
+
+from boson_multimodal.data_types import ChatMLSample, Message
+from boson_multimodal.serve.serve_engine import HiggsAudioResponse, HiggsAudioServeEngine
+
 
 MODEL_PATH = "higgs-audio-v2-generation-3B-base"
 AUDIO_TOKENIZER_PATH = "higgs-audio-v2-tokenizer"
 MODEL_URL = "https://weights.replicate.delivery/default/bosonai/higgs-audio-v2-generation-3B-base/model.tar"
 TOKENIZER_URL = "https://weights.replicate.delivery/default/bosonai/higgs-audio-v2-tokenizer/model.tar"
+
 
 def download_weights(url, dest):
     start = time.time()
@@ -21,6 +24,7 @@ def download_weights(url, dest):
     print("downloading to: ", dest)
     subprocess.check_call(["pget", "-xf", url, dest], close_fds=False)
     print("downloading took: ", time.time() - start)
+
 
 class Predictor(BasePredictor):
     def setup(self) -> None:
@@ -90,7 +94,6 @@ class Predictor(BasePredictor):
                     content=text,
                 ),
             ]
-
 
             # Generate audio
             output: HiggsAudioResponse = self.serve_engine.generate(
