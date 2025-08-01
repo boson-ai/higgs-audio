@@ -93,6 +93,10 @@ uv pip install -e .
 For advanced usage with higher throughput, we also built OpenAI compatible API server backed by vLLM engine for you to use.
 Please refer to [examples/vllm](./examples/vllm) for more details.
 
+### Option 6: Web Interface (Gradio)
+
+For a user-friendly web interface, we provide a Gradio-based UI that makes it easy to generate speech without command-line tools. See [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md) for detailed setup instructions and [examples/README_gradio.md](examples/README_gradio.md) for usage information.
+
 
 ## Usage
 
