@@ -374,7 +374,7 @@ class HiggsAudioModelClient:
         concat_audio_out_ids = torch.concat(audio_out_ids_l, dim=1)
 
         # Fix MPS compatibility: detach and move to CPU before decoding
-        if concat_audio_out_ids.device.type in ["mps", "cuda"]:
+        if concat_audio_out_ids.device.type == "mps":
             concat_audio_out_ids_cpu = concat_audio_out_ids.detach().cpu()
         else:
             concat_audio_out_ids_cpu = concat_audio_out_ids
