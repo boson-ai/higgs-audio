@@ -1,21 +1,43 @@
+# Core AI/ML Libraries
 descript-audio-codec
 torch
 transformers>=4.45.1,<4.47.0
+accelerate>=0.26.0
+
+# Audio Processing
 librosa
-dacite
-boto3==1.35.36
-s3fs
 torchvision
 torchaudio
-json_repair
+pydub
+soundfile
+
+# Data Processing
 pandas
 pydantic
+dacite
+json_repair
 vector_quantize_pytorch
+
+# AWS/Cloud
+boto3==1.35.36
+s3fs
+
+# Web Interface (Gradio)
+gradio>=4.0.0
+
+# System Monitoring
+psutil
+
+# Development Tools
 loguru
-pydub
 ruff==0.12.2
 omegaconf
 click
+
+# Language Processing
 langid
 jieba
-accelerate>=0.26.0
+
+# Additional Dependencies for Examples
+tqdm
+pyyaml
