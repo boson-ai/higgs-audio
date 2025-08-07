@@ -1,0 +1,20 @@
+[33mcommit 63e364236b82a3ddcd00a305edf08655b42ab5d8[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Mohit Lamba <mohitklamba@gmail.com>
+Date:   Fri Aug 1 10:07:43 2025 +0530
+
+    feat: Address PR feedback - improve Gradio UI implementation
+    
+    - Create separate requirements-gradio.txt to reduce environment bloat
+    - Consolidate three Gradio apps into single argparse-based application
+    - Add comprehensive installation guide (INSTALLATION_GUIDE.md)
+    - Update README with proper links to installation guide
+    - Fix installation instructions in Gradio README
+    - Remove real-time text preview to fix performance issues
+    - Add voice cloning support and GPU optimization instructions
+    - Address all feedback from @Arcitec and @cleverestx
+
+INSTALLATION_GUIDE.md
+README.md
+examples/README_gradio.md
+examples/gradio_app.py
+requirements-gradio.txt

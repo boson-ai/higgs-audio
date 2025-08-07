@@ -10,9 +10,9 @@ import time
 from io import BytesIO
 
 import numpy as np
-import requests
 import soundfile as sf
 from openai import OpenAI
+
 
 OPENAI_AUDIO_SAMPLE_RATE = 24000
 DEFAULT_SYSTEM_PROMPT = (
@@ -64,7 +64,7 @@ def run_voice_clone(stream: bool = False) -> None:
     data_dir = os.path.join(os.path.dirname(__file__), "..", "voice_prompts")
     audio_path = os.path.join(data_dir, "belinda.wav")
     audio_text_path = os.path.join(data_dir, "belinda.txt")
-    with open(audio_text_path, "r") as f:
+    with open(audio_text_path) as f:
         audio_text = f.read()
     audio_base64 = encode_base64_content_from_file(audio_path)
     messages = [
@@ -139,7 +139,7 @@ def run_generate_multispeaker(stream: bool = False) -> None:
         "<|scene_desc_end|>"
     )
     transcript_path = os.path.join(os.path.dirname(__file__), "..", "transcript", "multi_speaker", "en_argument.txt")
-    with open(transcript_path, "r") as f:
+    with open(transcript_path) as f:
         transcript = f.read()
 
     messages = [{"role": "system", "content": MULTI_SPEAKER_SYSTEM_PROMPT}, {"role": "user", "content": transcript}]

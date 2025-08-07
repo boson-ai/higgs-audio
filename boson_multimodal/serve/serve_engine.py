@@ -163,7 +163,7 @@ class AsyncStoppingCriteria(StoppingCriteria):
 
     def __call__(self, input_ids, scores, **kwargs) -> bool:
         if self.stop_signal.is_set():
-            logger.info(f"Stop signal received. Can be caused by client disconnection.")
+            logger.info("Stop signal received. Can be caused by client disconnection.")
             return True
         return False
 
@@ -219,7 +219,7 @@ class HiggsAudioServeEngine:
         logger.info(f"Loading tokenizer from {tokenizer_name_or_path}")
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name_or_path)
 
-        logger.info(f"Initializing Higgs Audio Tokenizer")
+        logger.info("Initializing Higgs Audio Tokenizer")
         self.audio_tokenizer = load_higgs_audio_tokenizer(audio_tokenizer_name_or_path, device=device)
 
         self.audio_num_codebooks = self.model.config.audio_num_codebooks
@@ -248,7 +248,7 @@ class HiggsAudioServeEngine:
         }
 
         if self.model.config.encode_whisper_embed:
-            logger.info(f"Loading whisper processor")
+            logger.info("Loading whisper processor")
             whisper_processor = AutoProcessor.from_pretrained(
                 "openai/whisper-large-v3-turbo",
                 trust_remote=True,
@@ -274,7 +274,7 @@ class HiggsAudioServeEngine:
 
         # Capture CUDA graphs for each KV cache length
         if device == "cuda":
-            logger.info(f"Capturing CUDA graphs for each KV cache length")
+            logger.info("Capturing CUDA graphs for each KV cache length")
             self.model.capture_model(self.kv_caches.values())
 
     def _prepare_inputs(self, chat_ml_sample: ChatMLSample, force_audio_gen: bool = False):

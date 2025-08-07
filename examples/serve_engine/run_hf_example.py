@@ -1,13 +1,15 @@
 """Example for using HiggsAudio for generating both the transcript and audio in an interleaved manner."""
 
-from boson_multimodal.serve.serve_engine import HiggsAudioServeEngine, HiggsAudioResponse
+import time
+
+import click
 import torch
 import torchaudio
-import time
-from loguru import logger
-import click
-
 from input_samples import INPUT_SAMPLES
+from loguru import logger
+
+from boson_multimodal.serve.serve_engine import HiggsAudioResponse, HiggsAudioServeEngine
+
 
 MODEL_PATH = "bosonai/higgs-audio-v2-generation-3B-base"
 AUDIO_TOKENIZER_PATH = "bosonai/higgs-audio-v2-tokenizer"

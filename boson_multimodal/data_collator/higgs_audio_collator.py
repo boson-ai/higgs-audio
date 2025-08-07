@@ -5,7 +5,7 @@ import math
 from typing import List, Tuple
 
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import Optional
 from transformers.models.whisper.processing_whisper import WhisperProcessor
 
 from ..dataset.chatml_dataset import ChatMLDatasetSample
