@@ -38,7 +38,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
-from xcodec.quantization.distrib import broadcast_tensors, rank
+from xcodec.quantization.distrib import broadcast_tensors
 
 
 def default(val: tp.Any, d: tp.Any) -> tp.Any:
