@@ -19,7 +19,7 @@ from transformers.models.llama.modeling_llama import (
     LlamaDecoderLayer,
     LlamaRMSNorm,
     LlamaRotaryEmbedding,
-    LLAMA_ATTENTION_CLASSES,
+    LlamaAttention,
     LlamaMLP,
     LlamaRMSNorm,
 )
@@ -401,13 +401,13 @@ class HiggsAudioDualFFNDecoderLayer(nn.Module):
         text_config = config.text_config
         self.hidden_size = text_config.hidden_size
         self.layer_idx = layer_idx
-        self.self_attn = LLAMA_ATTENTION_CLASSES[config._attn_implementation](config=text_config, layer_idx=layer_idx)
+        self.self_attn = LlamaAttention(config=text_config, layer_idx=layer_idx)
 
         self.mlp = LlamaMLP(text_config)
 
         if not fast_forward:
             if use_audio_attention:
-                self.audio_attn = LLAMA_ATTENTION_CLASSES[config._attn_implementation](
+                self.audio_attn = LlamaAttention(
                     config=text_config, layer_idx=layer_idx + 1
                 )
                 self.audio_post_audio_attn_layer_norm = LlamaRMSNorm(
@@ -627,15 +627,12 @@ class HiggsAudioDualFFNDecoderLayer(nn.Module):
 
             audio_attention_mask = audio_attention_mask.contiguous()
 
-            audio_hidden_states, audio_self_attn_weights, audio_present_key_value = self.audio_attn(
+            audio_hidden_states, audio_self_attn_weights = self.audio_attn(
                 hidden_states=hidden_states,
                 attention_mask=audio_attention_mask,
-                position_ids=position_ids,
-                past_key_value=past_key_value,
-                output_attentions=output_attentions,
-                use_cache=use_cache,
-                cache_position=cache_position,
                 position_embeddings=position_embeddings,
+                past_key_value=past_key_value,
+                cache_position=cache_position,
                 **kwargs,
             )
             audio_hidden_states = residual + audio_hidden_states
@@ -654,15 +651,12 @@ class HiggsAudioDualFFNDecoderLayer(nn.Module):
                 hidden_states = torch.where(audio_out_mask_sq.unsqueeze(-1), audio_hidden_states, hidden_states)
 
         # Text Attention
-        hidden_states, self_attn_weights, present_key_value = self.self_attn(
+        hidden_states, self_attn_weights = self.self_attn(
             hidden_states=hidden_states,
             attention_mask=attention_mask,
-            position_ids=position_ids,
-            past_key_value=past_key_value,
-            output_attentions=output_attentions,
-            use_cache=use_cache,
-            cache_position=cache_position,
             position_embeddings=position_embeddings,
+            past_key_value=past_key_value,
+            cache_position=cache_position,
             **kwargs,
         )
         hidden_states = residual + hidden_states
@@ -723,7 +717,7 @@ class HiggsAudioDualFFNDecoderLayer(nn.Module):
                 outputs += (self_attn_weights,)
 
         if use_cache:
-            outputs += (present_key_value,)
+            outputs += (past_key_value,)
 
         return outputs
 
@@ -1015,7 +1009,7 @@ class HiggsAudioModel(HiggsAudioPreTrainedModel, GenerationMixin):
         min_dtype = torch.finfo(dtype).min
         sequence_length = input_tensor.shape[1]
         if using_static_cache:
-            target_length = past_key_values.get_max_length()
+            target_length = past_key_values.max_cache_len
         else:
             target_length = (
                 attention_mask.shape[-1]
@@ -1503,9 +1497,9 @@ class HiggsAudioModel(HiggsAudioPreTrainedModel, GenerationMixin):
         """Sample audio tokens and its corresponding text tokens from the logits"""
 
         # parameters related to repetition aware sampling
-        ras_win_len = generation_config.generation_kwargs.get("ras_win_len", None)
-        ras_win_max_num_repeat = generation_config.generation_kwargs.get("ras_win_max_num_repeat", 2)
-        audio_eos_token_id = generation_config.generation_kwargs.get("audio_eos_token_id", None)
+        ras_win_len = getattr(generation_config, "ras_win_len", None)
+        ras_win_max_num_repeat = getattr(generation_config, "ras_win_max_num_repeat", 2)
+        audio_eos_token_id = getattr(generation_config, "audio_eos_token_id", None)
         # In the audio generation mode, we sample from audio_logits and keep updating audio_out_ids.
         next_audio_token_logits = audio_logits.clone()[-1, :, :].float().to(device)
         # TopP, TopK logits processor supports empty input_ids
@@ -1673,10 +1667,10 @@ class HiggsAudioModel(HiggsAudioPreTrainedModel, GenerationMixin):
             `model.config.is_encoder_decoder=True`.
         """
         assert input_ids.shape[0] == 1, "Only support batch_size=1 in _sample()"
-        audio_out_bos_token_id = generation_config.generation_kwargs.get("audio_out_bos_token_id", None)
+        audio_out_bos_token_id = getattr(generation_config, "audio_out_bos_token_id", None)
 
         # torch generator for sampling
-        seed = generation_config.generation_kwargs.get("seed", None)
+        seed = getattr(generation_config, "seed", None)
         if seed is not None:
             torch_generator = torch.Generator(device=input_ids.device).manual_seed(seed)
         else:
@@ -1731,7 +1725,7 @@ class HiggsAudioModel(HiggsAudioPreTrainedModel, GenerationMixin):
                     num_remaining_delays = self.audio_num_codebooks - last_eos_idx - 1
 
         while self._has_unfinished_sequences(
-            this_peer_finished, synced_gpus, device=input_ids.device, cur_len=cur_len, max_length=max_length
+            this_peer_finished, synced_gpus, device=input_ids.device
         ):
             # Check which multimodal stage we are in
             # FIXME: Assume single input generation
@@ -1893,8 +1887,8 @@ class HiggsAudioModel(HiggsAudioPreTrainedModel, GenerationMixin):
             if has_eos_stopping_criteria:
                 next_tokens = next_tokens * unfinished_sequences + pad_token_id * (1 - unfinished_sequences)
 
-            if "tokenizer_length" in generation_config.generation_kwargs:
-                tokenizer_length = generation_config.generation_kwargs["tokenizer_length"]
+            if hasattr(generation_config, "tokenizer_length"):
+                tokenizer_length = getattr(generation_config, "tokenizer_length")
                 if torch.max(next_tokens) >= tokenizer_length:
                     raise ValueError(
                         f"Next generated token has max value {torch.max(next_tokens)} which is greater than the tokenizer's vocabulary size {tokenizer_length}, this is undesired behavior."
@@ -1959,33 +1953,33 @@ class HiggsAudioModel(HiggsAudioPreTrainedModel, GenerationMixin):
         )
         generation_config, kwargs = self._prepare_generation_config(kwargs.pop("generation_config", None), **kwargs)
         if audio_out_bos_token_id is not None:
-            generation_config.generation_kwargs["audio_out_bos_token_id"] = audio_out_bos_token_id
+            setattr(generation_config, "audio_out_bos_token_id", audio_out_bos_token_id)
         else:
             try:
-                generation_config.generation_kwargs["audio_out_bos_token_id"] = self.audio_out_bos_token_id
+                setattr(generation_config, "audio_out_bos_token_id", self.audio_out_bos_token_id)
             except:
-                generation_config.generation_kwargs["audio_out_bos_token_id"] = None
+                setattr(generation_config, "audio_out_bos_token_id", None)
 
         if audio_eos_token_id is not None:
-            generation_config.generation_kwargs["audio_eos_token_id"] = audio_eos_token_id
+            setattr(generation_config, "audio_eos_token_id", audio_eos_token_id)
         else:
             try:
-                generation_config.generation_kwargs["audio_eos_token_id"] = self.audio_eos_token_id
+                setattr(generation_config, "audio_eos_token_id", self.audio_eos_token_id)
             except:
-                generation_config.generation_kwargs["audio_eos_token_id"] = None
+                setattr(generation_config, "audio_eos_token_id", None)
 
         has_default_max_length = kwargs.get("max_length") is None and generation_config.max_length is not None
         has_default_min_length = kwargs.get("min_length") is None and generation_config.min_length is not None
 
-        generation_config.generation_kwargs["ras_win_len"] = kwargs.pop("ras_win_len", None)
-        generation_config.generation_kwargs["ras_win_max_num_repeat"] = kwargs.pop("ras_win_max_num_repeat", 2)
+        setattr(generation_config, "ras_win_len", kwargs.pop("ras_win_len", None))
+        setattr(generation_config, "ras_win_max_num_repeat", kwargs.pop("ras_win_max_num_repeat", 2))
         # Set generation seed if determinstic generation is required
         if seed is not None:
-            generation_config.generation_kwargs["seed"] = seed
+            setattr(generation_config, "seed", seed)
 
         # Store tokenizer in generation config if it is in kwargs without popping it
         if "tokenizer" in kwargs:
-            generation_config.generation_kwargs["tokenizer_length"] = len(kwargs["tokenizer"])
+            setattr(generation_config, "tokenizer_length", len(kwargs["tokenizer"]))
 
         # input_ids: [bsz, seq_len]
         # The merging of audio features happens inside the forward path. The input_ids does not need to change.

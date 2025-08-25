@@ -1,6 +1,6 @@
 descript-audio-codec
 torch
-transformers>=4.45.1,<4.47.0
+transformers>=4.55.4
 librosa
 dacite
 boto3==1.35.36

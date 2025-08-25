@@ -167,6 +167,10 @@ class HiggsAudioConfig(PretrainedConfig):
             text_config = CONFIG_MAPPING[text_config["model_type"]](**text_config)
         elif text_config is None:
             text_config = CONFIG_MAPPING["llama"]()
+        
+        # Ensure _attn_implementation is set to avoid KeyError
+        if not hasattr(text_config, '_attn_implementation') or text_config._attn_implementation is None:
+            text_config._attn_implementation = "eager"
 
         assert audio_adapter_type in [
             "stack",
