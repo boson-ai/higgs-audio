@@ -1,11 +1,23 @@
-<h1 align="center">Higgs Audio V2: Redefining Expressiveness in Audio Generation</h1>
+<h1 align="center">Higgs Audio: Redefining Expressiveness in Audio Generation</h1>
 
 <div align="center" style="display: flex; justify-content: center; margin-top: 10px;">
-  <a href="https://boson.ai/blog/higgs-audio-v2"><img src='https://img.shields.io/badge/🚀-Launch Blogpost-228B22' style="margin-right: 5px;"></a>
+  <a href="https://boson.ai/blog/higgs-audio-v2"><img src='https://img.shields.io/badge/🚀-V2 Blogpost-228B22' style="margin-right: 5px;"></a>
+  <a href="https://www.boson.ai/blog/higgs-audio-v2.5"><img src='https://img.shields.io/badge/🚀-V2.5 Blogpost-228B22' style="margin-right: 5px;"></a>
   <a href="https://boson.ai/demo/tts"><img src="https://img.shields.io/badge/🕹️-Boson%20AI%20Playground-9C276A" style="margin-right: 5px;"></a>
   <a href="https://huggingface.co/spaces/smola/higgs_audio_v2"><img src="https://img.shields.io/badge/🎮-HF%20Space%20Playground-8A2BE2" style="margin-right: 5px;"></a>
   <a href="https://huggingface.co/bosonai/higgs-audio-v2-generation-3B-base"><img src="https://img.shields.io/badge/🤗-Checkpoints (3.6B LLM + 2.2B audio adapter)-ED5A22.svg" style="margin-right: 5px;"></a>
 </div>
+
+## NEWS！
+
+We are proud to launch **Higgs-Audio V2.5**, the latest iteration of Boson AI’s Audio model, designed to bring high-fidelity generation into production environments. Building on Higgs-Audio V2, this release combines improved efficiency with the stability required for real-world deployment.
+
+With V2.5, we condensed the model architecture to 1B parameters while surpassing speed and accuracy of the prior 3B model. The result is achieved through a new alignment strategy using Group Relative Policy Optimization (GRPO) on our curated Voice Bank dataset, combined with improved voice cloning and finer-grained style control.
+
+For detailed model performance, key improvements, and usage, please check our [blog](https://www.boson.ai/blog/higgs-audio-v2.5).
+
+
+## Higgs Audio V2
 
 
 We are open-sourcing Higgs Audio v2, a powerful audio foundation model pretrained on over 10 million hours of audio data and a diverse set of text data. Despite having no post-training or fine-tuning, Higgs Audio v2 excels in expressive audio generation, thanks to its deep language and acoustic understanding.
