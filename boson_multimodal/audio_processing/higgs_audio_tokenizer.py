@@ -46,7 +46,7 @@ class HiggsAudioTokenizer(nn.Module):
         n_filters: int = 32,
         D: int = 128,
         target_bandwidths: Sequence[Union[int, float]] = [1, 1.5, 2, 4, 6],
-        ratios: Sequence[int] = [8, 5, 4, 2],  #  downsampling by 320
+        ratios: Sequence[int] = [8, 5, 4, 2],  # downsampling by 320
         sample_rate: int = 16000,
         bins: int = 1024,
         n_q: int = 8,

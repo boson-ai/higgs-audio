@@ -17,7 +17,6 @@ from transformers.modeling_outputs import BaseModelOutput
 from transformers.models.whisper.modeling_whisper import WhisperEncoderLayer
 from transformers.models.llama.modeling_llama import (
     LlamaDecoderLayer,
-    LlamaRMSNorm,
     LlamaRotaryEmbedding,
     LLAMA_ATTENTION_CLASSES,
     LlamaMLP,

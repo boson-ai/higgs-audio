@@ -416,7 +416,7 @@ def prepare_chatml_sample(sample: Union[ChatMLSample, Dict], tokenizer):
                     if role == "user" or role == "system":
                         # Add the text tokens
                         text_tokens = tokenizer.encode(
-                            f"<|audio_bos|><|AUDIO|><|audio_eos|>",
+                            "<|audio_bos|><|AUDIO|><|audio_eos|>",
                             add_special_tokens=False,
                         )
                         input_tokens.extend(text_tokens)
@@ -424,7 +424,7 @@ def prepare_chatml_sample(sample: Union[ChatMLSample, Dict], tokenizer):
                     elif role == "assistant":
                         # Add the text tokens for audio-out part.
                         text_tokens = tokenizer.encode(
-                            f"<|audio_out_bos|><|AUDIO_OUT|><|audio_eos|>",
+                            "<|audio_out_bos|><|AUDIO_OUT|><|audio_eos|>",
                             add_special_tokens=False,
                         )
                         input_tokens.extend(text_tokens)

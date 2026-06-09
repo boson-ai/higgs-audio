@@ -1,34 +1,31 @@
 """Example script for generating audio using HiggsAudio."""
 
-import click
-import soundfile as sf
-import langid
-import jieba
+import copy
 import os
 import re
-import copy
-import torchaudio
+from dataclasses import asdict
+
+import click
+import jieba
+import langid
+import soundfile as sf
+import torch
 import tqdm
 import yaml
-
 from loguru import logger
-from boson_multimodal.serve.serve_engine import HiggsAudioServeEngine, HiggsAudioResponse
-from boson_multimodal.data_types import Message, ChatMLSample, AudioContent, TextContent
+from transformers import AutoConfig, AutoTokenizer
+from transformers.cache_utils import StaticCache
 
-from boson_multimodal.model.higgs_audio import HiggsAudioConfig, HiggsAudioModel
-from boson_multimodal.data_collator.higgs_audio_collator import HiggsAudioSampleCollator
 from boson_multimodal.audio_processing.higgs_audio_tokenizer import load_higgs_audio_tokenizer
+from boson_multimodal.data_collator.higgs_audio_collator import HiggsAudioSampleCollator
+from boson_multimodal.data_types import AudioContent, ChatMLSample, Message, TextContent
 from boson_multimodal.dataset.chatml_dataset import (
     ChatMLDatasetSample,
     prepare_chatml_sample,
 )
+from boson_multimodal.model.higgs_audio import HiggsAudioModel
 from boson_multimodal.model.higgs_audio.utils import revert_delay_pattern
-from typing import List
-from transformers import AutoConfig, AutoTokenizer
-from transformers.cache_utils import StaticCache
-from typing import Optional
-from dataclasses import asdict
-import torch
+
 
 CURR_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -81,7 +78,7 @@ def normalize_chinese_punctuation(text):
 
 
 def prepare_chunk_text(
-    text, chunk_method: Optional[str] = None, chunk_max_word_num: int = 100, chunk_max_num_turns: int = 1
+    text, chunk_method: str | None = None, chunk_max_word_num: int = 100, chunk_max_num_turns: int = 1
 ):
     """Chunk the text into smaller pieces. We will later feed the chunks one by one to the model.
 
@@ -183,7 +180,7 @@ class HiggsAudioModelClient:
         device=None,
         device_id=None,
         max_new_tokens=2048,
-        kv_cache_lengths: List[int] = [1024, 4096, 8192],  # Multiple KV cache sizes,
+        kv_cache_lengths: list[int] = [1024, 4096, 8192],  # Multiple KV cache sizes,
         use_static_kv_cache=False,
     ):
         # Use explicit device if provided, otherwise try CUDA/MPS/CPU
@@ -257,7 +254,7 @@ class HiggsAudioModelClient:
         }
         # Capture CUDA graphs for each KV cache length
         if "cuda" in self._device:
-            logger.info(f"Capturing CUDA graphs for each KV cache length")
+            logger.info("Capturing CUDA graphs for each KV cache length")
             self._model.capture_model(self.kv_caches.values())
 
     def _prepare_kv_caches(self):
@@ -369,7 +366,7 @@ class HiggsAudioModelClient:
                 generated_audio_ids = generated_audio_ids[-generation_chunk_buffer_size:]
                 generation_messages = generation_messages[(-2 * generation_chunk_buffer_size) :]
 
-        logger.info(f"========= Final Text output =========")
+        logger.info("========= Final Text output =========")
         logger.info(self._tokenizer.decode(outputs[0][0]))
         concat_audio_out_ids = torch.concat(audio_out_ids_l, dim=1)
 
@@ -403,7 +400,7 @@ def prepare_generation_context(scene_prompt, ref_audio, ref_audio_in_system_mess
             for spk_id, character_name in enumerate(speaker_info_l):
                 if character_name.startswith("profile:"):
                     if voice_profile is None:
-                        with open(f"{CURR_DIR}/voice_prompts/profile.yaml", "r", encoding="utf-8") as f:
+                        with open(f"{CURR_DIR}/voice_prompts/profile.yaml", encoding="utf-8") as f:
                             voice_profile = yaml.safe_load(f)
                     character_desc = voice_profile["profiles"][character_name[len("profile:") :].strip()]
                     speaker_desc.append(f"SPEAKER{spk_id}: {character_desc}")
@@ -418,7 +415,7 @@ def prepare_generation_context(scene_prompt, ref_audio, ref_audio_in_system_mess
             else:
                 system_message = (
                     "Generate audio following instruction.\n\n"
-                    + f"<|scene_desc_start|>\n"
+                    + "<|scene_desc_start|>\n"
                     + "\n".join(speaker_desc)
                     + "\n<|scene_desc_end|>"
                 )
@@ -438,7 +435,7 @@ def prepare_generation_context(scene_prompt, ref_audio, ref_audio_in_system_mess
                     f"Voice prompt audio file {prompt_audio_path} does not exist."
                 )
                 assert os.path.exists(prompt_text_path), f"Voice prompt text file {prompt_text_path} does not exist."
-                with open(prompt_text_path, "r", encoding="utf-8") as f:
+                with open(prompt_text_path, encoding="utf-8") as f:
                     prompt_text = f.read().strip()
                 audio_tokens = audio_tokenizer.encode(prompt_audio_path)
                 audio_ids.append(audio_tokens)
@@ -465,9 +462,9 @@ def prepare_generation_context(scene_prompt, ref_audio, ref_audio_in_system_mess
 
             for idx, tag in enumerate(speaker_tags):
                 if idx % 2 == 0:
-                    speaker_desc = f"feminine"
+                    speaker_desc = "feminine"
                 else:
-                    speaker_desc = f"masculine"
+                    speaker_desc = "masculine"
                 speaker_desc_l.append(f"{tag}: {speaker_desc}")
 
             speaker_desc = "\n".join(speaker_desc_l)
@@ -688,11 +685,11 @@ def main(
 
     if os.path.exists(transcript):
         logger.info(f"Loading transcript from {transcript}")
-        with open(transcript, "r", encoding="utf-8") as f:
+        with open(transcript, encoding="utf-8") as f:
             transcript = f.read().strip()
 
     if scene_prompt is not None and scene_prompt != "empty" and os.path.exists(scene_prompt):
-        with open(scene_prompt, "r", encoding="utf-8") as f:
+        with open(scene_prompt, encoding="utf-8") as f:
             scene_prompt = f.read().strip()
     else:
         scene_prompt = None

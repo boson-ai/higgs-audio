@@ -184,7 +184,7 @@ class EuclideanCodebook(nn.Module):
         if self.inited:
             return
 
-        ## NOTE (snippet added by Songxiang Liu): gather data from all gpus
+        # NOTE (snippet added by Songxiang Liu): gather data from all gpus
         if dist.is_available() and dist.is_initialized():
             # [B * T * world_size, D]
             data = SyncFunction.apply(data)
@@ -209,7 +209,7 @@ class EuclideanCodebook(nn.Module):
         if not torch.any(expired_codes):
             return
 
-        ## NOTE (snippet added by Songxiang Liu): gather data from all gpus
+        # NOTE (snippet added by Songxiang Liu): gather data from all gpus
         if is_distributed():
             # [B * T * world_size, D]
             batch_samples = SyncFunction.apply(batch_samples)
@@ -263,7 +263,7 @@ class EuclideanCodebook(nn.Module):
         quantize = self.dequantize(embed_ind)  # [B, T, D]
 
         if self.training:
-            ### Update codebook by EMA
+            # Update codebook by EMA
             embed_onehot_sum = embed_onehot.sum(0)  # [cb-size,]
             embed_sum = x.t() @ embed_onehot  # [D, cb-size]
             if is_distributed():

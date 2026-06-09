@@ -1,6 +1,7 @@
 import base64
 import os
-from boson_multimodal.data_types import ChatMLSample, Message, AudioContent
+
+from boson_multimodal.data_types import AudioContent, ChatMLSample, Message
 
 
 def encode_base64_content_from_file(file_path: str) -> str:
