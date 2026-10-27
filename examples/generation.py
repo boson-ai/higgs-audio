@@ -185,6 +185,7 @@ class HiggsAudioModelClient:
         max_new_tokens=2048,
         kv_cache_lengths: List[int] = [1024, 4096, 8192],  # Multiple KV cache sizes,
         use_static_kv_cache=False,
+        tokenizer_revision=None,
     ):
         # Use explicit device if provided, otherwise try CUDA/MPS/CPU
         if device_id is not None:
@@ -206,7 +207,9 @@ class HiggsAudioModelClient:
         if isinstance(audio_tokenizer, str):
             # For MPS, use CPU due to embedding operation limitations in quantization layers
             audio_tokenizer_device = "cpu" if self._device == "mps" else self._device
-            self._audio_tokenizer = load_higgs_audio_tokenizer(audio_tokenizer, device=audio_tokenizer_device)
+            self._audio_tokenizer = load_higgs_audio_tokenizer(
+                audio_tokenizer, device=audio_tokenizer_device, revision=tokenizer_revision
+            )
         else:
             self._audio_tokenizer = audio_tokenizer
 
@@ -508,6 +511,12 @@ def prepare_generation_context(scene_prompt, ref_audio, ref_audio_in_system_mess
     help="Audio tokenizer path, if not set, use the default one.",
 )
 @click.option(
+    "--tokenizer_revision",
+    type=str,
+    default=None,
+    help="Optional revision/commit hash for the audio tokenizer on Hugging Face.",
+)
+@click.option(
     "--max_new_tokens",
     type=int,
     default=2048,
@@ -625,6 +634,7 @@ def prepare_generation_context(scene_prompt, ref_audio, ref_audio_in_system_mess
 def main(
     model_path,
     audio_tokenizer,
+    tokenizer_revision,
     max_new_tokens,
     transcript,
     scene_prompt,
@@ -670,7 +680,9 @@ def main(
         device = f"cuda:{device_id}"
     # For MPS, use CPU for audio tokenizer due to embedding operation limitations
     audio_tokenizer_device = "cpu" if device == "mps" else device
-    audio_tokenizer = load_higgs_audio_tokenizer(audio_tokenizer, device=audio_tokenizer_device)
+    audio_tokenizer = load_higgs_audio_tokenizer(
+        audio_tokenizer, device=audio_tokenizer_device, revision=tokenizer_revision
+    )
 
     # Disable static KV cache on MPS since it relies on CUDA graphs
     if device == "mps" and use_static_kv_cache:
@@ -682,6 +694,7 @@ def main(
         device_id=device_id,
         max_new_tokens=max_new_tokens,
         use_static_kv_cache=use_static_kv_cache,
+        tokenizer_revision=tokenizer_revision,
     )
 
     pattern = re.compile(r"\[(SPEAKER\d+)\]")
