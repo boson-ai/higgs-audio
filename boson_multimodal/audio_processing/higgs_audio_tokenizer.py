@@ -61,6 +61,7 @@ class HiggsAudioTokenizer(nn.Module):
         vq_scale: int = 1,
         semantic_sample_rate: int = None,
         device: str = "cuda",
+        **kwargs,
     ):
         super().__init__()
         self.hop_length = np.prod(ratios)
@@ -309,20 +310,85 @@ class HiggsAudioTokenizer(nn.Module):
         return o.detach().cpu().numpy()
 
 
-def load_higgs_audio_tokenizer(tokenizer_name_or_path, device="cuda"):
+DEFAULT_TOKENIZER_REPO = "bosonai/higgs-audio-v2-tokenizer"
+# Checkpoint revision compatible with this codebase's architecture
+DEFAULT_TOKENIZER_REVISION = "9d4988fbd4ad07b4cac3a5fa462741a41810dbec"
+
+
+def _normalize_tokenizer_config(config: dict) -> dict:
+    """Normalize tokenizer configuration to support both legacy flat and nested schemas."""
+    normalized = dict(config)
+
+    # Handle newer HF format with nested acoustic_model_config
+    if "acoustic_model_config" in config and isinstance(config["acoustic_model_config"], dict):
+        acoustic = config["acoustic_model_config"]
+        if "hidden_size" in acoustic and "D" not in normalized:
+            normalized["D"] = acoustic["hidden_size"]
+        if "downsampling_ratios" in acoustic and "ratios" not in normalized:
+            normalized["ratios"] = acoustic["downsampling_ratios"]
+        if "codebook_size" in acoustic and "bins" not in normalized:
+            normalized["bins"] = acoustic["codebook_size"]
+        if "n_codebooks" in acoustic and "n_q" not in normalized:
+            normalized["n_q"] = acoustic["n_codebooks"]
+        if "codebook_dim" in acoustic and normalized.get("codebook_dim") is None:
+            normalized["codebook_dim"] = acoustic["codebook_dim"]
+
+    # Handle newer HF format with nested semantic_model_config
+    if "semantic_model_config" in config and isinstance(config["semantic_model_config"], dict):
+        semantic = config["semantic_model_config"]
+        if "model_type" in semantic and "semantic_techer" not in normalized:
+            if semantic["model_type"] == "hubert":
+                normalized["semantic_techer"] = "hubert_base_general"
+        if "semantic_sample_rate" in semantic and "semantic_sample_rate" not in normalized:
+            normalized["semantic_sample_rate"] = semantic["semantic_sample_rate"]
+
+    return normalized
+
+
+def load_higgs_audio_tokenizer(
+    tokenizer_name_or_path: str,
+    device: str = "cuda",
+    revision: Optional[str] = None,
+) -> HiggsAudioTokenizer:
     is_local = os.path.exists(tokenizer_name_or_path)
     if not is_local:
-        tokenizer_path = snapshot_download(tokenizer_name_or_path)
+        # If loading the default bosonai tokenizer and no revision is specified,
+        # pin to the compatible revision to prevent breakage from upstream schema updates.
+        if revision is None and tokenizer_name_or_path == DEFAULT_TOKENIZER_REPO:
+            revision = DEFAULT_TOKENIZER_REVISION
+        tokenizer_path = snapshot_download(tokenizer_name_or_path, revision=revision)
     else:
         tokenizer_path = tokenizer_name_or_path
     config_path = os.path.join(tokenizer_path, "config.json")
-    model_path = os.path.join(tokenizer_path, "model.pth")
-    config = json.load(open(config_path))
+    with open(config_path, "r", encoding="utf-8") as f:
+        config = json.load(f)
+
+    normalized_config = _normalize_tokenizer_config(config)
+
     model = HiggsAudioTokenizer(
-        **config,
+        **normalized_config,
         device=device,
     )
-    parameter_dict = torch.load(model_path, map_location=device)
+
+    model_path = os.path.join(tokenizer_path, "model.pth")
+    safetensors_path = os.path.join(tokenizer_path, "model.safetensors")
+
+    if os.path.exists(model_path):
+        parameter_dict = torch.load(model_path, map_location=device)
+    elif os.path.exists(safetensors_path):
+        try:
+            from safetensors.torch import load_file
+        except ImportError:
+            raise ImportError(
+                "Loading weights from 'model.safetensors' requires the `safetensors` package. "
+                "Please install it with `pip install safetensors`."
+            )
+        parameter_dict = load_file(safetensors_path, device=str(device))
+    else:
+        raise FileNotFoundError(
+            f"No checkpoint file found in '{tokenizer_path}'. Expected 'model.pth' or 'model.safetensors'."
+        )
+
     model.load_state_dict(parameter_dict, strict=False)
     model.to(device)
     model.eval()

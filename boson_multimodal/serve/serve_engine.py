@@ -187,6 +187,7 @@ class HiggsAudioServeEngine:
         device: str = "cuda",
         torch_dtype: Union[torch.dtype, str] = "auto",
         kv_cache_lengths: List[int] = [1024, 4096, 8192],  # Multiple KV cache sizes
+        audio_tokenizer_revision: Optional[str] = None,
     ):
         """
         Initialize the HiggsAudioServeEngine, a serving wrapper for the HiggsAudioModel.
@@ -205,6 +206,8 @@ class HiggsAudioServeEngine:
                 The lengths of the KV caches to use for the model. Used for cuda graph capture when device is cuda.
             torch_dtype (Union[torch.dtype, str]):
                 The dtype to use for the model.
+            audio_tokenizer_revision (str, optional):
+                The revision/commit hash of the audio tokenizer on Hugging Face.
         """
         self.device = device
         self.model_name_or_path = model_name_or_path
@@ -220,7 +223,9 @@ class HiggsAudioServeEngine:
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name_or_path)
 
         logger.info(f"Initializing Higgs Audio Tokenizer")
-        self.audio_tokenizer = load_higgs_audio_tokenizer(audio_tokenizer_name_or_path, device=device)
+        self.audio_tokenizer = load_higgs_audio_tokenizer(
+            audio_tokenizer_name_or_path, device=device, revision=audio_tokenizer_revision
+        )
 
         self.audio_num_codebooks = self.model.config.audio_num_codebooks
         self.audio_codebook_size = self.model.config.audio_codebook_size
